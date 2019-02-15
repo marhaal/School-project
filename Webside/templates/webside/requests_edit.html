@@ -1,0 +1,8 @@
+{% extends 'webside/base.html' %}
+{% block content %}
+<form method="POST" class="request-form">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type='submit' class="save">Lagre</button>
+</form>
+{% endblock %}
