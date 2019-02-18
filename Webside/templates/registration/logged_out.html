@@ -1,0 +1,9 @@
+{% extends 'webside/base.html' %}
+
+{% block title %}Sees snart igjen!{% endblock %}
+
+{% block content %}
+  <h2>Logget ut</h2>
+  <p>Du har blitt logget ut.</p>
+  <p><a href="{% url 'login' %}">Logg inn</a> igjen.</p>
+{% endblock %}
