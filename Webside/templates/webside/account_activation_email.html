@@ -1,0 +1,7 @@
+{% autoescape off %}
+Hei {{ user.username }}!
+
+Vennligst klikk på lenken under for å aktivere brukeren din:
+
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+{% endautoescape %}
