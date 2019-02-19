@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from .models import Post
-from .forms import RequestsForm
+from .models import Post, Comment
+from .forms import RequestsForm, CommentForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -92,3 +92,17 @@ def activate(request, uidb64, token):
         return redirect('home')
     else:
         return render(request, 'webside/account_activation_invalid.html')
+
+
+def add_comment_to_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            return redirect('requests_detail', pk=post.pk)
+    else:
+        form = CommentForm()
+    return render(request, 'webside/add_comment_to_post.html', {'form': form})
