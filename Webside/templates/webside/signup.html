@@ -1,7 +1,11 @@
 {% extends 'webside/base.html' %}
 
 {% block content %}
-  <h2>Registrer ny bruker</h2>
+  <h3 class="center">Registrer ny bruker</h3>
+  <div class="container">
+  <div class="row valign-wrapper">
+    <div class="col s6 offset-s3 valign">
+        <div class="card-content white-text">
   <form method="post">
     {% csrf_token %}
     {% for field in form %}
@@ -18,4 +22,8 @@
     {% endfor %}
     <button type="submit">Registrer</button>
   </form>
+  </div>
+  </div>
+  </div>
+  </div>
 {% endblock %}

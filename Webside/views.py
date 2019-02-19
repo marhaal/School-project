@@ -45,10 +45,6 @@ def home(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = forms.SignUpForm(request.POST)
-        form.fields['username'].label = "Brukernavn"
-        form.fields['password1'].label = "Passord"
-        form.fields['password2'].label = "Bekreft passord"
         if form.is_valid():
             user = form.save(commit=False)
             user.is_active = False
@@ -70,6 +66,10 @@ def signup(request):
     form.fields['username'].label = "Brukernavn"
     form.fields['password1'].label = "Passord"
     form.fields['password2'].label = "Bekreft passord"
+    form.fields['gender'].label = "Kjønn"
+    form.fields['age'].label = "Alder"
+    for fieldname in ['username', 'password1', 'password2']:
+            form.fields[fieldname].help_text = None
     return render(request, 'webside/signup.html', {'form': form})
 
 
