@@ -3,7 +3,8 @@
     <body>
         <p>Welcome to Shareboi</p>
         <ul>
+        {% if user.is_authenticated %}
           <li><a href="/requests">Etterpørr noe!</a></li>
-
+        {% endif %}
     </body>
 {% endblock %}

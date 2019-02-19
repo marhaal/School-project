@@ -92,3 +92,22 @@ def activate(request, uidb64, token):
         return redirect('home')
     else:
         return render(request, 'webside/account_activation_invalid.html')
+
+"""
+def check_staff(user):
+    status = True
+    try:
+        member = TpMember.objects.get(student_id=user.id)
+        if member.position == TpMember.POSITION_ALUMNI:
+            status = False
+
+    except:
+        status = False
+
+    if user.is_superuser:
+        status = True
+
+    return status
+
+    @user_passes_test(check_staff) inn over hvert enkelt view du vil autentisere
+"""
