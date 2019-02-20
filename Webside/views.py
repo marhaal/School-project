@@ -45,11 +45,18 @@ def home(request):
 
 def signup(request):
     if request.method == 'POST':
+        form = forms.SignUpForm(request.POST)
         if form.is_valid():
+            form.fields['username'].label = "Brukernavn"
+            form.fields['password1'].label = "Passord"
+            form.fields['password2'].label = "Bekreft passord"
+            form.fields['gender'].label = "Kjønn"
+            form.fields['age'].label = "Alder"
+            for fieldname in ['username', 'password1', 'password2']:
+                    form.fields[fieldname].help_text = None
             user = form.save(commit=False)
             user.is_active = False
             user.save()
-
             current_site = get_current_site(request)
             subject = 'Aktivere kontoen din til ShareBoi'
             message = render_to_string('webside/account_activation_email.html', {

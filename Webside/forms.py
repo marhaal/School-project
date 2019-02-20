@@ -10,14 +10,13 @@ class RequestsForm(forms.ModelForm):
         fields=('title', 'text',)
 
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField(max_length=254, help_text='Kreves. Skriv inn en gyldig emailadresse.')
-    GENDERS = ((1, "Mann"), (2, "Kvinne"))
+    email = forms.EmailField(max_length=254)
     gender = forms.CharField(required=True)
     age = forms.CharField(required=True)
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', )
+        fields = ('username', 'email', 'password1', 'password2', 'gender', 'age')
 
 
 class CommentForm(forms.ModelForm):
