@@ -11,6 +11,9 @@ class RequestsForm(forms.ModelForm):
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Kreves. Skriv inn en gyldig emailadresse.')
+    GENDERS = ((1, "Mann"), (2, "Kvinne"))
+    gender = forms.CharField(required=True)
+    age = forms.CharField(required=True)
 
     class Meta:
         model = User

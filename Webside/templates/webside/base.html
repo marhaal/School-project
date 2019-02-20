@@ -8,13 +8,22 @@
   </head>
   <body>
       <nav>
-        <div class="nav-wrapper green">
+        <div class="nav-wrapper blue">
             <a href="/" class="brand-logo center">ShareBoi</a>
-            {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}">Logg ut</a>
-            {% else %}
-            <a href="{% url 'login' %}">Logg inn</a> / <a href="{% url 'signup' %}">Registrer</a>
-            {% endif %}
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+             {% block authenticate %}
+             {% if user.is_superuser %}
+               <li><a href="/admin">Admin panel</a></li>
+             {% endif %}
+             {% if user.is_authenticated %}
+                 <li>Hei {{ user.username }}!</li>
+                 <li><a href="{% url 'logout' %}"class="waves-effect waves-light btn-small">Logg ut</a></li>
+             {% else %}
+                 <li><a href="{% url 'login' %}">Login</a></li>
+                 <li><a href="{% url 'signup' %}">Sign up</a></li>
+             {% endif %}
+             {% endblock %}
+           </ul>
           </div>
         </nav>
       {% block content %}
