@@ -1,10 +1,10 @@
 {% extends 'webside/base.html' %}
 {% block content %}
     <body>
-        <p>Welcome to Shareboi</p>
+        <h4>Velkommen til Shareboi</h4>
         <ul>
         {% if user.is_authenticated %}
-          <li><a class="waves-effect waves-light btn" href="/requests">Etterpørr noe!</a></li>
+          <li><a class="waves-effect waves-light btn" href="/requests">Etterspørr noe!</a></li>
         {% endif %}
     </body>
 {% endblock %}

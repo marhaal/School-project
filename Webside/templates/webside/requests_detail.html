@@ -1,25 +1,37 @@
 {% extends 'webside/base.html' %}
 
 {% block content %}
-
+<div class="card" style="max-width: 800px; margin:auto">
+    <div class="center-align">
+      <div class="card grey lighten-4">
+        <div class="card-content teal-text">
           <div class="post">
               <h2>{{ post.title }}</h2>
               <p>{{ post.text|linebreaksbr }}</p>
               {% if post.published_date %}
-                <div class="date">
+                <div class="date black-text">
                   {{ post.published_date }}
                 </div>
                 {% endif %}
             </div>
-            <a class="btn btn-default" style="margin:auto" href="{% url 'add_comment_to_post' pk=post.pk %}">Legg til en kommentar</a>
+            </div>
+          </div>
+          </div>
+          </div>
+          <div class="center-align">
+            <a class="btn btn-default" style="margin:auto" href="{% url 'add_comment_to_post' pk=post.pk %}">Legg igjen en kommentar</a>
+            <br><br>
             {% for comment in post.comments.all %}
+            <div class="divider"></div>
+            <div class="section">
             <div class="comment">
-            <div class="date">{{ comment.created_date }}</div>
             <strong>{{ comment.author }}</strong>
             <p>{{ comment.text|linebreaks }}</p>
+            <div class="date">{{ comment.created_date }}</div>
             </div>
             {% empty %}
             <p>Ingen kommentarer enda :(</p>
             {% endfor %}
-          
+            </div>
+            </div>
 {% endblock %}
