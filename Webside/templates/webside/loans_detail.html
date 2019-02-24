@@ -1,25 +1,37 @@
 {% extends 'webside/base.html' %}
 
 {% block content %}
-
-            <div class="loan">
-              <h5>Dette har {{ user.username }} vanligvis med seg:</h5>
-                <p>{{ loan.text|linebreaksbr }}</p>
+<div class="card" style="max-width: 800px; margin:auto">
+    <div class="center-align">
+      <div class="card grey lighten-4">
+        <div class="card-content teal-text">
+          <div class="loan">
+              <h2>Vanligvis har {{ user.username }} med seg:</h2>
+              <p>{{ loan.text|linebreaksbr }}</p>
               {% if loan.published_date %}
-                <div class="date">
+                <div class="date black-text">
                   {{ loan.published_date }}
                 </div>
                 {% endif %}
             </div>
-            <a class="btn btn-default" style="margin:auto" href="{% url 'add_comment_to_loan' pk=loan.pk %}">Legg til en kommentar</a>
-            {% for comment in loan.comment2.all %}
+            </div>
+          </div>
+          </div>
+          </div>
+          <div class="center-align">
+            <a class="btn btn-default" style="margin:auto" href="{% url 'add_comment_to_loan' pk=loan.pk %}">Legg igjen en kommentar</a>
+            <br><br>
+            {% for comment in loan.comments2.all %}
+            <div class="divider"></div>
+            <div class="section">
             <div class="comment">
-            <div class="date">{{ comment.created_date }}</div>
             <strong>{{ comment.author }}</strong>
             <p>{{ comment.text|linebreaks }}</p>
+            <div class="date">{{ comment.created_date }}</div>
             </div>
             {% empty %}
             <p>Ingen kommentarer enda :(</p>
             {% endfor %}
-
+            </div>
+            </div>
 {% endblock %}
