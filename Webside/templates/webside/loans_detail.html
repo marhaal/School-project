@@ -1,0 +1,25 @@
+{% extends 'webside/base.html' %}
+
+{% block content %}
+
+            <div class="loan">
+              <h5>Dette har {{ user.username }} vanligvis med seg:</h5>
+                <p>{{ loan.text|linebreaksbr }}</p>
+              {% if loan.published_date %}
+                <div class="date">
+                  {{ loan.published_date }}
+                </div>
+                {% endif %}
+            </div>
+            <a class="btn btn-default" style="margin:auto" href="{% url 'add_comment_to_loan' pk=loan.pk %}">Legg til en kommentar</a>
+            {% for comment in loan.comment2.all %}
+            <div class="comment">
+            <div class="date">{{ comment.created_date }}</div>
+            <strong>{{ comment.author }}</strong>
+            <p>{{ comment.text|linebreaks }}</p>
+            </div>
+            {% empty %}
+            <p>Ingen kommentarer enda :(</p>
+            {% endfor %}
+
+{% endblock %}
