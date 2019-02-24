@@ -141,7 +141,7 @@ def add_comment_to_loan(request, pk):
         form = CommentForm2(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.post = loan
+            comment.loan = loan
             comment.save()
             return redirect('loans_detail', pk=loan.pk)
     else:
