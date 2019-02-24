@@ -12,7 +12,7 @@
                 {% endif %}
             </div>
             <a class="btn btn-default" style="margin:auto" href="{% url 'add_comment_to_loan' pk=loan.pk %}">Legg til en kommentar</a>
-            {% for comment in loan.comments.all %}
+            {% for comment in loan.comments2.all %}
             <div class="comment">
             <div class="date">{{ comment.created_date }}</div>
             <strong>{{ comment.author }}</strong>
