@@ -1,12 +1,12 @@
 {% extends 'webside/base.html' %}
-{% block content %}
 {% load static %}
+{% block content %}
     <body>
         <h4>Velkommen til Shareboi</h4>
-        <img src="{% static "mysite/static/media/sharing.jpg" %}" alt="Sharing"/>
         <ul>
         {% if user.is_authenticated %}
           <li><a class="waves-effect waves-light btn" href="/requests">Etterspørr noe!</a></li>
         {% endif %}
+        <img src="{% static "media/sharing.jpg" %}" alt="Sharing"/>
     </body>
 {% endblock %}
