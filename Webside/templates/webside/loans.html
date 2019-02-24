@@ -7,7 +7,7 @@
            <div class="center-align">
                <div class="card grey lighten-4">
                    <div class="card-content teal-text">
-                       <h5><a href="{% url 'loans_detail' pk=post.pk %}">{{ loan.author }}</a></h5>
+                       <h5><a href="{% url 'loans_detail' pk=loan.pk %}">{{ loan.author }}</a></h5>
                        <p>{{ loan.text|linebreaksbr }}</p>
                        <div class="date">
                            {{ loan.published_date }}

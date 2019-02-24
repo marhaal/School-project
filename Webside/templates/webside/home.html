@@ -4,8 +4,14 @@
         <p>Welcome to Shareboi</p>
         <ul>
         {% if user.is_authenticated %}
-          <li><a class="waves-effect waves-light btn" href="/requests">Etterpørr noe!</a></li>
-          <li><a class="waves-effect waves-light btn" href="/loans">Legg til utlån!</a></li>
+          <div class="col">
+          <div class="row s3">
+            <li><a class="waves-effect waves-light btn" href="/requests">Etterspør noe!</a></li>
+          </div>
+          <div class="row s3">
+            <li><a class="waves-effect waves-light btn" href="/loans">Legg til utlån!</a></li>
+          </div>
+          </div>
         {% endif %}
     </body>
 {% endblock %}

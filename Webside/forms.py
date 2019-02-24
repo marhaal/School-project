@@ -29,4 +29,4 @@ class LoansForm(forms.ModelForm):
 
     class Meta:
         model = Loan
-        fields=('title', 'text',)
+        fields=('text',)

@@ -1,9 +1,18 @@
 {% extends 'webside/base.html' %}
 
 {% block content %}
-    <h1>Ny kommentar</h1>
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Send</button>
-    </form>
+    <h1 class="center">Ny kommentar</h1>
+    <div class="container">
+      <div class="row valign-wrapper">
+        <div class="col s6 offset-s3 valign">
+          <div class="card-content white-text">
+            <form method="POST" class="post-form">{% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit" class="save btn btn-default">Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
 {% endblock %}
