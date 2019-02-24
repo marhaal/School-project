@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from .models import Post, Comment, Loan
-from .forms import RequestsForm, CommentForm, LoansForm
+from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -138,12 +138,12 @@ def add_comment_to_post(request, pk):
 def add_comment_to_loan(request, pk):
     loan = get_object_or_404(Loan, pk=pk)
     if request.method == "POST":
-        form = CommentForm(request.POST)
+        form = CommentForm2(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = loan
             comment.save()
             return redirect('loans_detail', pk=loan.pk)
     else:
-        form = CommentForm()
+        form = CommentForm2()
     return render(request, 'webside/add_comment_to_loan.html', {'form': form})

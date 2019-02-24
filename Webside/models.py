@@ -46,7 +46,7 @@ class Comment(models.Model):
         return self.text
 
 class Comment2(models.Model):
-    post = models.ForeignKey('Webside.Loan', on_delete=models.CASCADE, related_name='comments2')
+    loan = models.ForeignKey('Webside.Loan', on_delete=models.CASCADE, related_name='comments2')
     author = models.CharField(max_length=200)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
