@@ -21,4 +21,5 @@ urlpatterns = [
         views.activate, name='activate'),
     path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
     path('post/<int:pk>/commentloan/', views.add_comment_to_loan, name='add_comment_to_loan'),
+    path('map', views.showmap, name='map'),
 ]

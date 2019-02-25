@@ -1,0 +1,13 @@
+{% extends 'webside/base.html' %}
+{% load static %}
+{% block content %}
+  <div id="mapid"></div>
+  <script type="text/javascript" src = "{% static 'js/map.js' %}"></script>
+  <script type="text/javascript">
+    {% for cord in coordinates %}
+    L.marker(cord).addTo(mymap);
+    marker.bindPopup().openPopup();
+  </script>
+
+
+{% endblock %}
