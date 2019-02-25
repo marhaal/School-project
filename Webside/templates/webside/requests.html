@@ -1,5 +1,9 @@
 {% extends 'webside/base.html' %}
 
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
 {% block content %}
 <a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'requests_new' %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons"</i>add</a>
   {% for post in posts %}

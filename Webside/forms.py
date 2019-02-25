@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment
+from .models import Post, Comment, Loan, Comment2
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -24,3 +24,15 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('author', 'text',)
+
+class CommentForm2(forms.ModelForm):
+
+    class Meta:
+        model = Comment2
+        fields = ('author', 'text',)
+
+class LoansForm(forms.ModelForm):
+
+    class Meta:
+        model = Loan
+        fields=('text',)

@@ -10,6 +10,9 @@ urlpatterns = [
     path('requests', views.requests, name='requests'),
     path('post/<int:pk>/', views.requests_detail, name='requests_detail'),
     path('requests/new/', views.requests_new, name='requests_new'),
+    path('loans', views.loans, name='loans'),
+    path('loan/<int:pk>/', views.loans_detail, name='loans_detail'),
+    path('loans/new/', views.loans_new, name='loans_new'),
     url(r'^login/$', auth_views.LoginView.as_view(), {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), {'template_name': 'logged_out.html'}, name='logout'),
     url(r'^signup/$', views.signup, name='signup'),
@@ -17,4 +20,5 @@ urlpatterns = [
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         views.activate, name='activate'),
     path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
+    path('post/<int:pk>/commentloan/', views.add_comment_to_loan, name='add_comment_to_loan'),
 ]

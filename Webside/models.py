@@ -44,3 +44,22 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+class Comment2(models.Model):
+    loan = models.ForeignKey('Webside.Loan', on_delete=models.CASCADE, related_name='comments2')
+    author = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.text
+
+class Loan(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    published_date = models.DateTimeField(blank=True, null=True)
+
+    def publish(self):
+        self.published_date = timezone.now()
+        self.save()

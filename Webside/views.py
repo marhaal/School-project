@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from .models import Post, Comment
-from .forms import RequestsForm, CommentForm
+from .models import Post, Comment, Loan
+from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -37,6 +37,27 @@ def requests_new(request):
     else:
         form = RequestsForm()
     return render(request, 'webside/requests_edit.html', {'form': form})
+
+def loans(request):
+    loans=Loan.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    return render(request, 'webside/loans.html', {'loans': loans})
+
+def loans_detail(request, pk):
+    loan= get_object_or_404(Loan, pk=pk)
+    return render(request, 'webside/loans_detail.html', {'loan': loan})
+
+def loans_new(request):
+    if request.method == "POST":
+        form = LoansForm(request.POST)
+        if form.is_valid():
+            loan = form.save(commit=False)
+            loan.author = request.user
+            loan.published_date = timezone.now()
+            loan.save()
+            return redirect('loans_detail', pk=loan.pk)
+    else:
+        form = LoansForm()
+    return render(request, 'webside/loans_edit.html', {'form': form})
 
 @login_required
 def home(request):
@@ -113,3 +134,16 @@ def add_comment_to_post(request, pk):
     else:
         form = CommentForm()
     return render(request, 'webside/add_comment_to_post.html', {'form': form})
+
+def add_comment_to_loan(request, pk):
+    loan = get_object_or_404(Loan, pk=pk)
+    if request.method == "POST":
+        form = CommentForm2(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.loan = loan
+            comment.save()
+            return redirect('loans_detail', pk=loan.pk)
+    else:
+        form = CommentForm2()
+    return render(request, 'webside/add_comment_to_loan.html', {'form': form})
