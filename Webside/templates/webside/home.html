@@ -1,7 +1,11 @@
 {% extends 'webside/base.html' %}
+{% load static %}
 {% block content %}
     <body>
-        <h4>Velkommen til Shareboi</h4>
+        <h4 class="flow-text" style="color:#336699; font-variant: small-caps;">Velkommen til Shareboi</h4>
+        <img src="{% static "media/sharing.jpg" %}"  class="z-depth-4" alt="Sharing"
+        style="float:right; max-width:400px; max-height:400px; "/>
+        <br>
         <ul>
         {% if user.is_authenticated %}
           <div class="col">
