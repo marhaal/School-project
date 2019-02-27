@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from .models import Post, Comment, Loan
-from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2
+from .models import Post, Comment, Loan, Community
+from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -147,6 +147,22 @@ def add_comment_to_loan(request, pk):
     else:
         form = CommentForm2()
     return render(request, 'webside/add_comment_to_loan.html', {'form': form})
+
+def add_community(request):
+    if request.method == "POST":
+        form = CommunityForm(request.POST)
+        if form.is_valid():
+            community = form.save(commit=False)
+            community.save()
+            return redirect('communitylist')
+    else:
+        form = CommunityForm()
+    return render(request, 'webside/add_community.html', {'form': form})
+
+def communitylist(request):
+    communities=Community.objects.all()
+    return render(request, 'webside/communitylist.html', {'communities': communities})
+
 
 def showmap(request):
     return render(request, 'webside/showmap.html')

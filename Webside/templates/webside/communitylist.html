@@ -1,0 +1,20 @@
+{% extends 'webside/base.html' %}
+
+{% block content %}
+<div class="card" style="max-width: 800px; margin:auto">
+  <div class="center-align">
+    <div class="card grey lighten-4">
+      <div class="card-content teal-text">
+        {% for community in communities %}
+          <h5>{{community.name}}</h5>
+          <p>{{community.address}}</p>
+          <p>{{community.longitude}} {{community.latitude}}</p>
+          <p>{{ community.text|linebreaksbr }}</p>
+        {% empty %}
+          <p>Ingen områder er registrert enda</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
