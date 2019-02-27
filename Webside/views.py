@@ -147,3 +147,6 @@ def add_comment_to_loan(request, pk):
     else:
         form = CommentForm2()
     return render(request, 'webside/add_comment_to_loan.html', {'form': form})
+
+def showmap(request):
+    return render(request, 'webside/showmap.html')
