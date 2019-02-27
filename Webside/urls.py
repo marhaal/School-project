@@ -22,4 +22,6 @@ urlpatterns = [
     path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
     path('post/<int:pk>/commentloan/', views.add_comment_to_loan, name='add_comment_to_loan'),
     path('map', views.showmap, name='map'),
+    path('add_community', views.add_community, name='add_community'),
+    path('communitylist', views.communitylist, name='communitylist'),
 ]
