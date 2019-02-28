@@ -12,14 +12,32 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from . import forms
 from .tokens import account_activation_token
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
 def homepage(request):
     return render(request, 'webside/home.html',{})
 
 def requests(request):
     posts=Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'webside/requests.html', {'posts': posts})
+    query=request.GET.get('q')
+    if query:
+        posts=posts.filter(
+        Q(title__icontains=query)|
+        Q(text__icontains=query)
+        ).distinct()
+    paginator=Paginator(posts, 5)
+    page= request.GET.get('page')
+    try:
+        items=paginator.page(page)
+    except PageNotAnInteger:
+        items=paginator.page(1)
+    except EmptyPage:
+        items=paginator.page(paginator.num_pages)
+    context={
+        'items': items
+    }
+    return render(request, 'webside/requests.html', context)
 
 def requests_detail(request, pk):
     post= get_object_or_404(Post, pk=pk)

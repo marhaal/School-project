@@ -1,17 +1,17 @@
 {% extends 'webside/base.html' %}
 
-<head>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-
 {% block content %}
-  {% for post in posts %}
+<form method='GET' action=''>
+  <input type='text' name='q' placeholder='Søk i etterspørsler' value='{{ request.GET.q }}'/>
+  <input type='submit' value='SØK'/>
+  </form>
+<a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'requests_new' %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons">add</i></a>
+  {% for post in items %}
   <div class="card" style="max-width: 800px; margin:auto">
            <div class="center-align">
                <div class="card grey lighten-4">
                    <div class="card-content teal-text">
                        <h5><a href="{% url 'requests_detail' pk=post.pk %}">{{ post.title }}</a></h5>
-                       <p>{{ post.community }}</p>
                        <p>{{ post.text|linebreaksbr }}</p>
                        <div class="date">
                            {{ post.published_date }}
@@ -21,5 +21,21 @@
              </div>
        </div>
   {% endfor %}
-  <a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'requests_new' %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons"</i>add</a>
+  <div class="pagination">
+      <span class="step-links">
+          {% if items.has_previous %}
+              <a href="?page=1">&laquo; første</a>
+              <a href="?page={{ items.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">forrige</a>
+          {% endif %}
+
+          <span class="current">
+              Side {{ items.number }} av {{ items.paginator.num_pages }}.
+          </span>
+
+          {% if items.has_next %}
+              <a href="?page={{ items.next_page_number }}{%if request.GET.q %}&q={{ request.GET.q }}{% endif %}">neste</a>
+              <a href="?page={{ items.paginator.num_pages }}">siste &raquo;</a>
+          {% endif %}
+      </span>
+  </div>
 {% endblock %}
