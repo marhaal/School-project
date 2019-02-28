@@ -6,18 +6,19 @@
       <div class="card grey lighten-4">
         <div class="card-content teal-text">
           <div class="loan">
-              <h2>Vanligvis har {{ user.username }} med seg:</h2>
+              <h2>{{loan.title}}</h2>
               <p>{{ loan.text|linebreaksbr }}</p>
+              <p>{{ loan.community }}</p>
               {% if loan.published_date %}
                 <div class="date black-text">
                   {{ loan.published_date }}
                 </div>
                 {% endif %}
-            </div>
-            </div>
-          </div>
-          </div>
-          </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
           <div class="center-align">
             <a class="btn btn-default" style="margin:auto" href="{% url 'add_comment_to_loan' pk=loan.pk %}">Legg igjen en kommentar</a>
             <br><br>

@@ -1,13 +1,13 @@
 {% extends 'webside/base.html' %}
 
 {% block content %}
-<a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'loans_new' %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons"</i>add</a>
   {% for loan in loans %}
   <div class="card" style="max-width: 800px; margin:auto">
            <div class="center-align">
                <div class="card grey lighten-4">
                    <div class="card-content teal-text">
-                       <h5><a href="{% url 'loans_detail' pk=loan.pk %}">{{ loan.author }}</a></h5>
+                       <h5><a href="{% url 'loans_detail' pk=loan.pk %}">{{ loan.title }}</a></h5>
+                       <p>{{ loan.community }}</p>
                        <p>{{ loan.text|linebreaksbr }}</p>
                        <div class="date">
                            {{ loan.published_date }}
@@ -17,4 +17,6 @@
              </div>
        </div>
   {% endfor %}
+
+  <a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'loans_new' %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons"</i>add</a>
 {% endblock %}
