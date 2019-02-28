@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
     <!-- Leaflet stylesheet -->
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
   <body class="grey lighten-5">
@@ -31,6 +32,21 @@
            </ul>
           </div>
         </nav>
+
+        <ul id="slide-out" class="sidenav">
+          <li><a class="waves-effect" href="/requests"><i class="material-icons">chat</i>Etterspør noe</a></li>
+          <li><a class="waves-effect" href="/loans"><i class="material-icons">cloud</i>Legg til utlån</a></li>
+          <li><a class="waves-effect" href="/showmap"><i class="material-icons">map</i>Se kart</a></li>
+          {% if user.is_superuser %}
+            <li><div class="divider"></div></li>
+            <li><a class="waves-effect" href="/add_community"><i class="material-icons">add_location</i>Legg til område</a></li>
+            <li><a class="waves-effect" href="/communitylist"><i class="material-icons">list</i>Liste av områder</a></li>
+          {% endif %}
+        </ul>
+
+        {% if user.is_authenticated %}
+        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        {% endif %}
         <div class="container">
       {% block content %}
       {% endblock %}
@@ -43,8 +59,18 @@
       $(function(){
     // Plugin initialization
       $('select').not('.disabled').formSelect();
-    });
-  })(jQuery); // end of jQuery name space
-</script>
+      });
+      })(jQuery); // end of jQuery name space
+    </script>
+    <script>
+      $(document).ready(function(){
+        $('.sidenav').sidenav();
+      });
+      </script>
+      <script>
+      $(document).ready(function(){
+        $('.collapsible').collapsible();
+      });
+      </script>
   </body>
 </html>

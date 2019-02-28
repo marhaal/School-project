@@ -24,4 +24,5 @@ urlpatterns = [
     path('map', views.showmap, name='map'),
     path('add_community', views.add_community, name='add_community'),
     path('communitylist', views.communitylist, name='communitylist'),
+    path('showmap', views.showmap, name='showmap'),
 ]
