@@ -2,27 +2,32 @@
 {% load static %}
 {% block content %}
     <body>
-        <h4 class="flow-text" style="color:#336699; font-variant: small-caps;">Velkommen til Shareboi</h4>
+        <h4 class="center" style="color:#336699; font-variant: small-caps;">Velkommen til Shareboi</h4>
         <br>
-        <ul>
-        {% if user.is_authenticated %}
-          <div class="col">
-          <div class="row s3">
-            <li><a class="waves-effect waves-light btn" href="/requests">Etterspør noe!</a></li>
+        <div class='center'>
+          <div class="row">
+            <div class="col s6">
+              <img src="{% static "media/sharing.jpg" %}"  class="z-depth-4" alt="Sharing"
+          style=max-width:350px; max-height:350px; "/>
+            </div>
+          <div class="col s6">
+            <ul class="collapsible popout">
+              <li>
+                <div class="collapsible-header"><i class="material-icons">chat</i>Etterspør det du mangler</div>
+                <div class="collapsible-body"><span>Har dårlig ånde før du skal møte en søt studiepartner? Eller kanskje du har hodeverk rett før en forelesning i
+                  fluidmekanikk? Her kan du etterspørre det du trenger!</span></div>
+              </li>
+              <li>
+                <div class="collapsible-header"><i class="material-icons">cloud</i>Legg ut ting</div>
+                <div class="collapsible-body"><span>Har du ting som kan hjelpe andre i en travel hverdag? Legg det ut her!</span></div>
+              </li>
+              <li>
+                <div class="collapsible-header"><i class="material-icons">map</i>Se hvor du kan møte andre</div>
+                <div class="collapsible-body"><span>Se et kart som viser hvor du kan møte andre for å få det du er ute etter. Slik kan man velge den som er nærmest!</span></div>
+              </li>
+            </ul>
           </div>
-          <div class="row s3">
-            <li><a class="waves-effect waves-light btn" href="/loans">Legg til utlån!</a></li>
-          </div>
-        {% endif %}
-          <div class="row s3">
-            <li><a class="waves-effect waves-light btn" href="/add_community">Legg til nytt område!</a></li>
-          </div>
-          <div class="row s3">
-            <li><a class="waves-effect waves-light btn" href="/communitylist">Se registrerte områder!</a></li>
-          </div>
-          </div>
-          </ul>
-          <img src="{% static "media/sharing.jpg" %}"  class="z-depth-4" alt="Sharing"
-          style="float:right; max-width:350px; max-height:350px; "/>
+        </div>
+      </div>
     </body>
 {% endblock %}
