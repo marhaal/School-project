@@ -3,11 +3,11 @@
 {% block content %}
   <div id="mapid"></div>
   <script type="text/javascript" src = "{% static 'js/map.js' %}"></script>
+  {% for cord in coordinates %}
   <script type="text/javascript">
-    {% for cord in coordinates %}
     L.marker(cord).addTo(mymap);
     marker.bindPopup().openPopup();
   </script>
-
+  {% endfor %}
 
 {% endblock %}
