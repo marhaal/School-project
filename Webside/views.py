@@ -165,4 +165,5 @@ def communitylist(request):
 
 
 def showmap(request):
-    return render(request, 'webside/showmap.html')
+    loans=Loan.objects.all()
+    return render(request, 'webside/showmap.html', {'loans': loans})

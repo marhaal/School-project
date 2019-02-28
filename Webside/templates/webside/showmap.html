@@ -3,11 +3,14 @@
 {% block content %}
   <div id="mapid"></div>
   <script type="text/javascript" src = "{% static 'js/map.js' %}"></script>
-  {% for cord in coordinates %}
   <script type="text/javascript">
-    L.marker(cord).addTo(mymap);
-    marker.bindPopup().openPopup();
+    {% for loan in loans %}
+    lon = {{loan.community.longitude}}
+    lat = {{loan.community.latitude}}
+    cord = [lon, lat]
+    var marker = L.marker(cord).addTo(mymap);
+    marker.bindPopup("<b>{{loan.title}}</b><br>{{loan.author}}").openPopup();
+    {% endfor %}
   </script>
-  {% endfor %}
 
 {% endblock %}
