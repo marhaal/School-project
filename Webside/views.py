@@ -58,7 +58,24 @@ def requests_new(request):
 
 def loans(request):
     loans=Loan.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'webside/loans.html', {'loans': loans})
+    query=request.GET.get('q')
+    if query:
+        loans=loans.filter(
+        Q(title__icontains=query)|
+        Q(text__icontains=query)
+        ).distinct()
+    paginator=Paginator(loans, 5)
+    page= request.GET.get('page')
+    try:
+        items=paginator.page(page)
+    except PageNotAnInteger:
+        items=paginator.page(1)
+    except EmptyPage:
+        items=paginator.page(paginator.num_pages)
+    context={
+        'items': items
+    }
+    return render(request, 'webside/loans.html', context)
 
 def loans_detail(request, pk):
     loan= get_object_or_404(Loan, pk=pk)
