@@ -16,7 +16,7 @@ class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254)
     age = forms.CharField(required=True)
     gender = forms.CharField(required=True)
-    gender = forms.ChoiceField(choices=[('kvinne', 'Kvinne'), ('mann', 'Mann')])
+    gender = forms.ChoiceField(choices=[('kvinne', 'Kvinne'), ('mann', 'Mann'), ('annet', 'Annet')])
 
     class Meta:
         model = User

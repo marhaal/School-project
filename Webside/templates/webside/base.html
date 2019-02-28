@@ -25,8 +25,8 @@
                  <li>Hei {{ user.username }}!</li>
                  <li><a href="{% url 'logout' %}"class="waves-effect waves-light btn-small" style="top:15px">Logg ut</a></li>
              {% else %}
-                 <li><a href="{% url 'login' %}" class="waves-effect waves-light btn-small" style="top:15px">Login</a></li>
-                 <li><a href="{% url 'signup' %}" class="waves-effect waves-light btn-small" style="top:15px">Sign up</a></li>
+                 <li><a href="{% url 'login' %}" class="waves-effect waves-light btn-small" style="top:15px">Logg inn</a></li>
+                 <li><a href="{% url 'signup' %}" class="waves-effect waves-light btn-small" style="top:15px">Ny bruker?</a></li>
              {% endif %}
              {% endblock %}
            </ul>
