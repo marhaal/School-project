@@ -1,5 +1,8 @@
 {% extends 'webside/base.html' %}
 {% block content %}
+<h4 class="center" style="color:#336699; font-variant: small-caps;">utlån</h4>
+<a class="btn btn-default" href="{% url 'home' %}"><i class="large material-icons">navigate_before</i>
+</a>
 <form method='GET' action=''>
   <input type='text' name='q' placeholder='Søk i utlån' value='{{ request.GET.q }}'
   style='width:50%; margin-left:200px'/>

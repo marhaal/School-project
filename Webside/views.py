@@ -19,14 +19,14 @@ def homepage(request):
     return render(request, 'webside/home.html',{})
 
 def requests(request):
-    posts=Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    posts=Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
     query=request.GET.get('q')
     if query:
         posts=posts.filter(
         Q(title__icontains=query)|
         Q(text__icontains=query)
         ).distinct()
-    paginator=Paginator(posts, 3)
+    paginator=Paginator(posts, 5)
     page= request.GET.get('page')
     try:
         items=paginator.page(page)
@@ -57,7 +57,7 @@ def requests_new(request):
     return render(request, 'webside/requests_edit.html', {'form': form})
 
 def loans(request):
-    loans=Loan.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    loans=Loan.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
     query=request.GET.get('q')
     if query:
         loans=loans.filter(
