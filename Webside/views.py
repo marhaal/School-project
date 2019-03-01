@@ -26,7 +26,7 @@ def requests(request):
         Q(title__icontains=query)|
         Q(text__icontains=query)
         ).distinct()
-    paginator=Paginator(posts, 5)
+    paginator=Paginator(posts, 3)
     page= request.GET.get('page')
     try:
         items=paginator.page(page)
