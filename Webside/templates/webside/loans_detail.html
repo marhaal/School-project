@@ -1,6 +1,8 @@
 {% extends 'webside/base.html' %}
 
 {% block content %}
+<a class="btn btn-default" href="{% url 'loans' %}" style="margin-left:-100px;"><i class="large material-icons">navigate_before</i>
+</a>
 <div class="card" style="max-width: 800px; margin:auto">
     <div class="center-align">
       <div class="card grey lighten-4">
@@ -8,7 +10,10 @@
           <div class="loan">
               <h2>{{loan.title}}</h2>
               <p>{{ loan.text|linebreaksbr }}</p>
+              <div class="black-text">
               <p>{{ loan.community }}</p>
+              </div>
+              <p>{{ loan.author }}</p>
               {% if loan.published_date %}
                 <div class="date black-text">
                   {{ loan.published_date }}
