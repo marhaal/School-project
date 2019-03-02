@@ -50,4 +50,4 @@ class CommunityForm(forms.ModelForm):
     class Meta:
         model = Community
         fields = ('name', 'text', 'address', 'longitude', 'latitude',)
-        labels = {'name': "Navn", 'text': "Beskrivelse", 'address': "Adresse", 'longitude': "Lengegrad", 'latitude': "Breddegrad"}
+        labels = {'name': "Navn", 'text': "Beskrivelse", 'address': "Adresse", 'longitude': "Lengdegrad", 'latitude': "Breddegrad"}
