@@ -1,15 +1,18 @@
 {% extends 'webside/base.html' %}
 {% load static %}
 {% block content %}
-  <div id="mapid"></div>
+
+  <div id="mapid" style="margin-left:auto;margin-right:auto;text-align:center"></div>
   <script type="text/javascript" src = "{% static 'js/map.js' %}"></script>
   <script type="text/javascript">
+
+
     {% for loan in loans %}
     lon = {{loan.community.longitude}}
     lat = {{loan.community.latitude}}
     cord = [lon, lat]
     var marker = L.marker(cord).addTo(mymap);
-    marker.bindPopup("<b>{{loan.title}}</b><br>{{loan.author}}").openPopup();
+    marker.bindPopup("<b>{{loan.title}}</b><br>{{loan.author}}");
     {% endfor %}
   </script>
 

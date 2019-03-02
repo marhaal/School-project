@@ -34,8 +34,8 @@
         </nav>
 
         <ul id="slide-out" class="sidenav">
-          <li><a class="waves-effect" href="/requests"><i class="material-icons">chat</i>Etterspør noe</a></li>
-          <li><a class="waves-effect" href="/loans"><i class="material-icons">cloud</i>Legg til utlån</a></li>
+          <li><a class="waves-effect" href="/requests"><i class="material-icons">chat</i>Etterspørsler</a></li>
+          <li><a class="waves-effect" href="/loans"><i class="material-icons">cloud</i>Utlån</a></li>
           <li><a class="waves-effect" href="/showmap"><i class="material-icons">map</i>Se kart</a></li>
           {% if user.is_superuser %}
             <li><div class="divider"></div></li>
@@ -45,7 +45,7 @@
         </ul>
 
         {% if user.is_authenticated %}
-        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons">menu</i></a>
         {% endif %}
         <div class="container">
       {% block content %}

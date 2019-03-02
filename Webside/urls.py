@@ -25,4 +25,6 @@ urlpatterns = [
     path('add_community', views.add_community, name='add_community'),
     path('communitylist', views.communitylist, name='communitylist'),
     path('showmap', views.showmap, name='showmap'),
+    path('request/delete/<int:pk>/', views.request_delete, name='request_delete'),
+    path('loan/delete/<int:pk>/', views.loan_delete, name='loan_delete'),
 ]

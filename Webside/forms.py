@@ -52,3 +52,9 @@ class CommunityForm(forms.ModelForm):
     class Meta:
         model = Community
         fields = ('name', 'text', 'address', 'longitude', 'latitude',)
+
+class PickCommunityForm(forms.ModelForm):
+    community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), to_field_name='name')
+    class Meta:
+        model = Community
+        fields=('community',)
