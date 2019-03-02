@@ -123,6 +123,13 @@ def signup(request):
             return redirect('account_activation_sent')
     else:
         form = SignUpForm()
+    form.fields['username'].label = "Brukernavn"
+    form.fields['password1'].label = "Passord"
+    form.fields['password2'].label = "Bekreft passord"
+    form.fields['gender'].label = "Kjønn"
+    form.fields['age'].label = "Alder"
+    for fieldname in ['username', 'password1', 'password2']:
+            form.fields[fieldname].help_text = None
     return render(request, 'webside/signup.html', {'form': form})
 
 
