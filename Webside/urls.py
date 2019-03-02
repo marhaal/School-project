@@ -25,4 +25,6 @@ urlpatterns = [
     path('add_community', views.add_community, name='add_community'),
     path('communitylist', views.communitylist, name='communitylist'),
     path('showmap', views.showmap, name='showmap'),
+    url(r'^$', views.home, name='home'),
+
 ]
