@@ -1,6 +1,8 @@
 {% extends 'webside/base.html' %}
 
 {% block content %}
+<a class="btn btn-default" href="{% url 'requests' %}" style="margin-left:-100px;"><i class="large material-icons">navigate_before</i>
+</a>
 <div class="card" style="max-width: 800px; margin:auto">
     <div class="center-align">
       <div class="card grey lighten-4">
@@ -8,6 +10,10 @@
           <div class="post">
               <h2>{{ post.title }}</h2>
               <p>{{ post.text|linebreaksbr }}</p>
+              <div class="black-text">
+              <p>{{ post.community }}</p>
+              </div>
+              <p>{{ post.author }}</p>
               {% if post.published_date %}
                 <div class="date black-text">
                   {{ post.published_date }}
