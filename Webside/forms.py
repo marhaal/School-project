@@ -10,41 +10,39 @@ class RequestsForm(forms.ModelForm):
     class Meta:
         model = Post
         fields=('title', 'text', 'community')
+        labels = {'title': "Tittel", 'text': 'Tekst'}
 
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254)
     age = forms.CharField(required=True)
     gender = forms.CharField(required=True)
-    gender = forms.ChoiceField(choices=[('kvinne', 'Kvinne'), ('mann', 'Mann')])
+    gender = forms.ChoiceField(choices=[('kvinne', 'Kvinne'), ('mann', 'Mann'), ('annet', 'Annet')])
 
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2', 'gender', 'age')
-
-
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password1', 'password2', 'gender', 'age')
-
 
 class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
         fields = ('author', 'text',)
+        labels = {'author': "Navn", 'text': 'Tekst'}
 
 class CommentForm2(forms.ModelForm):
 
     class Meta:
         model = Comment2
         fields = ('author', 'text',)
+        labels = {'author': "Navn", 'text': 'Tekst'}
 
 class LoansForm(forms.ModelForm):
     community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), to_field_name='name')
     class Meta:
         model = Loan
-        fields=('title', 'text', 'community',)
+        fields=('title', 'text', 'community')
+        labels = {'title': "Tittel", 'text': 'Tekst'}
 
 
 class CommunityForm(forms.ModelForm):
@@ -52,9 +50,4 @@ class CommunityForm(forms.ModelForm):
     class Meta:
         model = Community
         fields = ('name', 'text', 'address', 'longitude', 'latitude',)
-
-class PickCommunityForm(forms.ModelForm):
-    community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), to_field_name='name')
-    class Meta:
-        model = Community
-        fields=('community',)
+        labels = {'name': "Navn", 'text': "Beskrivelse", 'address': "Adresse", 'longitude': "Lengdegrad", 'latitude': "Breddegrad"}

@@ -1,7 +1,15 @@
 {% extends 'webside/base.html' %}
-
 {% block content %}
-  {% for loan in loans %}
+<h4 class="center" style="color:#336699; font-variant: small-caps;">utlån</h4>
+<a class="btn btn-default" href="{% url 'home' %}"><i class="large material-icons">navigate_before</i>
+</a>
+<form method='GET' action=''>
+  <input type='text' name='q' placeholder='Søk i utlån' value='{{ request.GET.q }}'
+  style='width:50%; margin-left:200px'/>
+  <button class="btn waves-effect waves-light" type="submit" name="action" value='SØK'>SØK
+  </button>
+  </form>
+  {% for loan in items %}
   <div class="card" style="max-width: 800px; margin:auto">
            <div class="center-align">
                <div class="card grey lighten-4">
@@ -18,5 +26,23 @@
        </div>
   {% endfor %}
 
-  <a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'loans_new' %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons"</i>add</a>
+  <a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'loans_new' %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons">add</i></a>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if items.has_previous %}
+            <a href="?page=1">&laquo; første</a>
+            <a href="?page={{ items.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">forrige</a>
+        {% endif %}
+
+        <span class="current">
+            Side {{ items.number }} av {{ items.paginator.num_pages }}.
+        </span>
+
+        {% if items.has_next %}
+            <a href="?page={{ items.next_page_number }}{%if request.GET.q %}&q={{ request.GET.q }}{% endif %}">neste</a>
+            <a href="?page={{ items.paginator.num_pages }}">siste &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}
