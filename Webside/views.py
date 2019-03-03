@@ -26,7 +26,8 @@ def requests(request):
     if query:
         posts=posts.filter(
         Q(title__icontains=query)|
-        Q(text__icontains=query)
+        Q(text__icontains=query)|
+        Q(community__name__icontains=query)
         ).distinct()
     paginator=Paginator(posts, 5)
     page= request.GET.get('page')
@@ -64,7 +65,8 @@ def loans(request):
     if query:
         loans=loans.filter(
         Q(title__icontains=query)|
-        Q(text__icontains=query)
+        Q(text__icontains=query)|
+        Q(community__name__icontains=query)
         ).distinct()
     paginator=Paginator(loans, 5)
     page= request.GET.get('page')
@@ -95,10 +97,6 @@ def loans_new(request):
     else:
         form = LoansForm()
     return render(request, 'webside/loans_edit.html', {'form': form})
-
-@login_required
-def home(request):
-    return render(request, 'home.html')
 
 
 def signup(request):
@@ -211,11 +209,9 @@ def showmap(request):
 def loan_delete(request, pk):
     loan = get_object_or_404(Loan, pk=pk)
     loan.delete()
-    redirect('loans')
-    return render(request, 'webside/loans.html', {'loans': loans})
+    return redirect('loans')
 
 def request_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
-    redirect('requests')
-    return render(request, 'webside/requests.html', {'post': post})
+    return redirect('requests')

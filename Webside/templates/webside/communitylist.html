@@ -10,9 +10,12 @@
           <p>{{community.address}}</p>
           <p>{{community.longitude}} {{community.latitude}}</p>
           <p>{{ community.text|linebreaksbr }}</p>
+          <div class="divider"></div>
+          <div class="section">
         {% empty %}
           <p>Ingen områder er registrert enda</p>
         {% endfor %}
+        <div>
       </div>
     </div>
   </div>
