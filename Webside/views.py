@@ -96,10 +96,6 @@ def loans_new(request):
         form = LoansForm()
     return render(request, 'webside/loans_edit.html', {'form': form})
 
-@login_required
-def home(request):
-    return render(request, 'home.html')
-
 
 def signup(request):
     if request.method == 'POST':
@@ -211,12 +207,9 @@ def showmap(request):
 def loan_delete(request, pk):
     loan = get_object_or_404(Loan, pk=pk)
     loan.delete()
-    redirect('loans')
-    return render(request, 'webside/loans.html', {'loans': loans})
+    return redirect('loans')
 
-def request_delete(request, id):
-    d = Post.objects.get(pk=id)
-    d.delete()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    #redirect('requests')
-    #return render(request, 'webside/requests.html', {'post': post})
+def request_delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.delete()
+    return redirect('requests')
