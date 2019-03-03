@@ -214,8 +214,9 @@ def loan_delete(request, pk):
     redirect('loans')
     return render(request, 'webside/loans.html', {'loans': loans})
 
-def request_delete(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    post.delete()
-    redirect('requests')
-    return render(request, 'webside/requests.html', {'post': post})
+def request_delete(request, id):
+    d = Post.objects.get(pk=id)
+    d.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    #redirect('requests')
+    #return render(request, 'webside/requests.html', {'post': post})
