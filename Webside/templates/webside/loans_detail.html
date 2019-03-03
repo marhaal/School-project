@@ -24,20 +24,27 @@
      </div>
    </div>
  </div>
-          <div class="center-align">
-            <a class="btn btn-default" style="margin:auto" href="{% url 'add_comment_to_loan' pk=loan.pk %}">Legg igjen en kommentar</a>
+    <div class="center-align">
+        <a class="btn btn-default" style="margin:auto" href="{% url 'add_comment_to_loan' pk=loan.pk %}">Legg igjen en kommentar</a>
             <br><br>
             {% for comment in loan.comments2.all %}
             <div class="divider"></div>
-            <div class="section">
-            <div class="comment">
-            <strong>{{ comment.author }}</strong>
-            <p>{{ comment.text|linebreaks }}</p>
-            <div class="date">{{ comment.created_date }}</div>
-            </div>
-            {% empty %}
-            <p>Ingen kommentarer enda :(</p>
-            {% endfor %}
-            </div>
-            </div>
+                <div class="section">
+                    <div class="comment">
+                            <strong>{{ comment.author }}</strong>
+                            <p>{{ comment.text|linebreaks }}</p>
+                            <div class="date">{{ comment.created_date }}</div>
+                    </div>
+                    {% empty %}
+                    <p>Ingen kommentarer enda :(</p>
+                    {% endfor %}
+                </div>
+    </div>
+    <div>
+
+        {% ifequal value|stringformat:"loan.author" value|stringformat:"user.username" %}
+<a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'loan_delete' pk=loan.pk %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons"</i>delete</a>
+        {% endifequal %}
+    </div>
+
 {% endblock %}

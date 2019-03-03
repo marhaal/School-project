@@ -197,4 +197,25 @@ def communitylist(request):
 
 def showmap(request):
     loans=Loan.objects.all()
+#/  communities=Community.objects.all()
+#    if request.method == "POST":
+#        form = PickCommunityForm(request.POST)
+#        if form.is_valid():
+#            community = form.save(commit=False)
+#            community.save()
+#            return redirect('showmap')
+#    else:
+#       form = CommunityForm()
     return render(request, 'webside/showmap.html', {'loans': loans})
+
+def loan_delete(request, pk):
+    loan = get_object_or_404(Loan, pk=pk)
+    loan.delete()
+    redirect('loans')
+    return render(request, 'webside/loans.html', {'loans': loans})
+
+def request_delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.delete()
+    redirect('requests')
+    return render(request, 'webside/requests.html', {'post': post})
