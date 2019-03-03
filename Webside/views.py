@@ -26,7 +26,8 @@ def requests(request):
     if query:
         posts=posts.filter(
         Q(title__icontains=query)|
-        Q(text__icontains=query)
+        Q(text__icontains=query)|
+        Q(community__name__icontains=query)
         ).distinct()
     paginator=Paginator(posts, 5)
     page= request.GET.get('page')
@@ -64,7 +65,8 @@ def loans(request):
     if query:
         loans=loans.filter(
         Q(title__icontains=query)|
-        Q(text__icontains=query)
+        Q(text__icontains=query)|
+        Q(community__name__icontains=query)
         ).distinct()
     paginator=Paginator(loans, 5)
     page= request.GET.get('page')
