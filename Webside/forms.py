@@ -15,7 +15,7 @@ class RequestsForm(forms.ModelForm):
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254)
-    age = forms.CharField(required=True)
+    age = forms.IntegerField(max_value=150, min_value=0, required=True)
     gender = forms.CharField(required=True)
     gender = forms.ChoiceField(choices=[('kvinne', 'Kvinne'), ('mann', 'Mann'), ('annet', 'Annet')])
 
