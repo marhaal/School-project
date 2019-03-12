@@ -25,9 +25,20 @@
                 </div>
                 <div class="modal-footer">
                   <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
-                  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Raporter</a>
+                  <a href="#modal4" class="modal-trigger modal-close waves-effect waves-green btn-flat">Raporter</a>
                 </div>
               </div>
+
+              <!-- Modal Structure -->
+              <div id="modal4" class="modal">
+                <div class="modal-content">
+                  <!-- tekst husk loan.author -->
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Send</a>
+                </div>
+              </div>
+
               {% if loan.published_date %}
                 <div class="date black-text">
                   {{ loan.published_date }}
@@ -56,7 +67,16 @@
                               </div>
                               <div class="modal-footer">
                                 <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
-                                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Raporter</a>
+                                <a href="#modal3" class="modal-trigger modal-close waves-effect waves-green btn-flat">Raporter</a>
+                              </div>
+                            </div>
+                            <!-- Modal Structure -->
+                            <div id="modal3" class="modal">
+                              <div class="modal-content">
+                                <!-- tekst husk comment.author -->
+                              </div>
+                              <div class="modal-footer">
+                                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Send</a>
                               </div>
                             </div>
                             <p>{{ comment.text|linebreaks }}</p>
