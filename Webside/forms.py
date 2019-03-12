@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment, Loan, Comment2, Community
+from .models import Post, Comment, Loan, Comment2, Community, Report
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -51,3 +51,9 @@ class CommunityForm(forms.ModelForm):
         model = Community
         fields = ('name', 'text', 'address', 'longitude', 'latitude',)
         labels = {'name': "Navn", 'text': "Beskrivelse", 'address': "Adresse", 'longitude': "Lengdegrad", 'latitude': "Breddegrad"}
+
+class ReportForm(forms.ModelForm):
+    class Meta:
+        model = Report
+        fields = ('reason',)
+        labels = {'reason': "",}

@@ -24,18 +24,21 @@
                   <p>Sum: 86</p>
                 </div>
                 <div class="modal-footer">
+                  <a href="#modal4" class="modal-trigger modal-close waves-effect waves-green btn-flat">Rapportér bruker</a>
                   <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
-                  <a href="#modal4" class="modal-trigger modal-close waves-effect waves-green btn-flat">Raporter</a>
                 </div>
               </div>
 
               <!-- Modal Structure -->
               <div id="modal4" class="modal">
                 <div class="modal-content">
-                  <!-- tekst husk loan.author -->
+                  <h5> Begrunnelse for rapportering av {{ loan.author }} </h5>
+                  <form method="POST" class="post-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
                 </div>
                 <div class="modal-footer">
-                  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Send</a>
+                  <button type="submit" href="#!" class="modal-close waves-effect waves-green btn-flat">Send</button>
                 </div>
               </div>
 
@@ -66,17 +69,20 @@
                                 <p>Sum: 16</p>
                               </div>
                               <div class="modal-footer">
+                                <a href="#modal3" class="modal-trigger modal-close waves-effect waves-green btn-flat">Rapportér bruker</a>
                                 <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
-                                <a href="#modal3" class="modal-trigger modal-close waves-effect waves-green btn-flat">Raporter</a>
                               </div>
                             </div>
                             <!-- Modal Structure -->
                             <div id="modal3" class="modal">
                               <div class="modal-content">
-                                <!-- tekst husk comment.author -->
+                                <h5> Begrunnelse for rapportering av {{ comment.author }} </h5>
+                                <form method="POST" class="post-form">
+                                  {% csrf_token %}
+                                  {{ form.as_p }}
                               </div>
                               <div class="modal-footer">
-                                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Send</a>
+                                <button type="submit" href="#!" class="modal-close waves-effect waves-green btn-flat">Send</button>
                               </div>
                             </div>
                             <p>{{ comment.text|linebreaks }}</p>
