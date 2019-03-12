@@ -42,8 +42,8 @@
             </div>
             <div>
 
-                  {% ifequal value|stringformat:"loan.author" value|stringformat:"user.username" %}
+                  {% if post.author.username == user.username %}
           <a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'request_delete' pk=post.pk %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons"</i>delete</a>
-                  {% endifequal %}
+                  {% endif %}
               </div>
 {% endblock %}
