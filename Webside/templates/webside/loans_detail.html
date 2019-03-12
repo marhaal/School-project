@@ -13,7 +13,21 @@
               <div class="black-text">
               <p>{{ loan.community }}</p>
               </div>
-              <p>{{ loan.author }}</p>
+              <a class="modal-trigger" style="margin:auto" href="#modal1"><p>{{ loan.author }}</p></a>
+
+              <!-- Modal Structure -->
+              <div id="modal1" class="modal">
+                <div class="modal-content">
+                  <h4>{{ loan.author }}</h4>
+                  <p>Rating: 4</p>
+                  <p>Karma: gitt 14, fått 12</p>
+                  <p>Sum: 86</p>
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
+                  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Raporter</a>
+                </div>
+              </div>
               {% if loan.published_date %}
                 <div class="date black-text">
                   {{ loan.published_date }}
@@ -31,7 +45,20 @@
             <div class="divider"></div>
                 <div class="section">
                     <div class="comment">
-                            <strong>{{ comment.author }}</strong>
+                            <a class="modal-trigger" style="margin:auto" href="#modal2"><strong>{{ comment.author }}</strong></a>
+                            <!-- Modal Structure -->
+                            <div id="modal2" class="modal">
+                              <div class="modal-content">
+                                <h4>{{ comment.author }}</h4>
+                                <p>Rating: 4</p>
+                                <p>Karma: gitt 7, fått 12</p>
+                                <p>Sum: 16</p>
+                              </div>
+                              <div class="modal-footer">
+                                <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
+                                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Raporter</a>
+                              </div>
+                            </div>
                             <p>{{ comment.text|linebreaks }}</p>
                             <div class="date">{{ comment.created_date }}</div>
                     </div>
