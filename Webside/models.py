@@ -87,3 +87,11 @@ class PickCommunity(models.Model):
 
     def _str_(self):
         return self.community
+
+class Report(models.Model):
+    reason = models.TextField()
+    user1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_reporting')
+    user2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_gets_reported')
+
+    def _str_(self):
+        return self.user2

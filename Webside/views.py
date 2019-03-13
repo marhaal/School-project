@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from .models import Post, Comment, Loan, Community
-from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm
+from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, ReportForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -44,7 +44,17 @@ def requests(request):
 
 def requests_detail(request, pk):
     post= get_object_or_404(Post, pk=pk)
-    return render(request, 'webside/requests_detail.html', {'post': post})
+    if request.method == "POST":
+        form = ReportForm(request.POST)
+        if form.is_valid():
+            report = form.save(commit=False)
+            report.user1 = request.user
+            report.user2 = post.author
+            report.save()
+            return redirect('requests_detail', pk=post.pk)
+    else:
+        form = ReportForm()
+    return render(request, 'webside/requests_detail.html', {'post': post, 'form': form})
 
 def requests_new(request):
     if request.method == "POST":
@@ -83,7 +93,17 @@ def loans(request):
 
 def loans_detail(request, pk):
     loan= get_object_or_404(Loan, pk=pk)
-    return render(request, 'webside/loans_detail.html', {'loan': loan})
+    if request.method == "POST":
+        form = ReportForm(request.POST)
+        if form.is_valid():
+            report = form.save(commit=False)
+            report.user1 = request.user
+            report.user2 = loan.author
+            report.save()
+            return redirect('loans_detail', pk=loan.pk)
+    else:
+        form = ReportForm()
+    return render(request, 'webside/loans_detail.html', {'loan': loan, 'form': form})
 
 def loans_new(request):
     if request.method == "POST":
