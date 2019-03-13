@@ -1,4 +1,5 @@
 {% extends 'webside/base.html' %}
+{% load static %}
 
 {% block content %}
 <h4 class="center" style="color:#336699; font-variant: small-caps;">etterspørsler</h4>
@@ -30,8 +31,8 @@
   <div class="pagination">
       <span class="step-links">
           {% if items.has_previous %}
-              <a href="?page=1">&laquo; første</a>
-              <a href="?page={{ items.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">forrige</a>
+              <a href="?page=1"><i class="material-icons">first_page</i></a>
+              <a href="?page={{ items.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i class="material-icons">chevron_left</i></a>
           {% endif %}
 
           <span class="current">
@@ -39,8 +40,8 @@
           </span>
 
           {% if items.has_next %}
-              <a href="?page={{ items.next_page_number }}{%if request.GET.q %}&q={{ request.GET.q }}{% endif %}">neste</a>
-              <a href="?page={{ items.paginator.num_pages }}">siste &raquo;</a>
+              <a href="?page={{ items.next_page_number }}{%if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i class="material-icons">chevron_right</i></a>
+              <a href="?page={{ items.paginator.num_pages }}"><i class="material-icons">last_page</i></a>
           {% endif %}
       </span>
   </div>

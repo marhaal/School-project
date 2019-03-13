@@ -8,12 +8,39 @@
       <div class="card grey lighten-4">
         <div class="card-content teal-text">
           <div class="post">
-              <h2>{{ post.title }}</h2>
-              <p>{{ post.text|linebreaksbr }}</p>
-              <div class="black-text">
-              <p>{{ post.community }}</p>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.text|linebreaksbr }}</p>
+            <div class="black-text">
+            <p>{{ post.community }}</p>
+            </div>
+            <a class="modal-trigger" style="margin:auto" href="#modal1"><p>{{ post.author }}</p></a>
+            <!-- Modal Structure -->
+            <div id="modal1" class="modal">
+              <div class="modal-content">
+              <h4>{{ post.author }}</h4>
+                <p>Rating: 4</p>
+                <p>Karma: gitt 14, fått 12</p>
+                <p>Sum: 86</p>
               </div>
-              <p>{{ post.author }}</p>
+              <div class="modal-footer">
+                <a href="#modal4" class="modal-trigger modal-close waves-effect waves-red btn-flat">Rapportér bruker</a>
+                <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
+              </div>
+            </div>
+
+            <!-- Modal Structure -->
+            <div id="modal4" class="modal">
+              <div class="modal-content">
+                <h5> Begrunnelse for rapportering av {{ post.author }} </h5>
+                <form method="POST" class="post-form">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+              </div>
+              <div class="modal-footer">
+                <button type = "submit" href="#!" class="modal-close waves-effect waves-green btn-flat">Send</button>
+              </div>
+            </div>
+
               {% if post.published_date %}
                 <div class="date black-text">
                   {{ post.published_date }}
@@ -31,7 +58,88 @@
             <div class="divider"></div>
             <div class="section">
             <div class="comment">
-            <strong>{{ comment.author }}</strong>
+            <a class="modal-trigger" style="margin:auto" href="#modal2"><strong>{{ comment.author }}</strong></a>
+            <!-- Modal Structure -->
+            <div id="ratingModal" class="modal">
+              <div class="modal-content">
+              <h4>{{ post.author }}</h4>
+                <p>Gi rating:</p>
+                <section class='rating-widget'>
+
+                  <!-- Rating Stars Box -->
+                  <div class='center'>
+                    <div class='row'>
+                      <ul id='stars'>
+                        <div class="col s1">
+                          <li class='star' title='Poor' data-value='1'>
+                            <i class="material-icons">star</i>
+                          </li>
+                        </div>
+                        <div class="col s1">
+                          <li class='star' title='Fair' data-value='2'>
+                            <i class="material-icons">star</i>
+                          </li>
+                        </div>
+                        <div class="col s1">
+                          <li class='star' title='Good' data-value='3'>
+                            <i class="material-icons">star</i>
+                          </li>
+                        </div>
+                        <div class="col s1">
+                          <li class='star' title='Excellent' data-value='4'>
+                            <i class="material-icons">star</i>
+                          </li>
+                        </div>
+                        <div class="col s1">
+                          <li class='star' title='WOW!!!' data-value='5'>
+                            <i class="material-icons">star</i>
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class='success-box'>
+                    <div class='clearfix'></div>
+                    <div class='text-message'></div>
+                    <div class='clearfix'></div>
+                  </div>
+                </section>
+              </div>
+              <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Send</a>
+              </div>
+            </div>
+            <!-- Modal Structure -->
+            <div id="modal2" class="modal">
+              <div class="modal-content">
+              <h4>{{ comment.author }}</h4>
+                <p>Rating: 4</p>
+                <p>Karma: gitt 14, fått 12</p>
+                <p>Sum: 86</p>
+              </div>
+              <div class="modal-footer">
+                {% ifequal value|stringformat:"loan.author" value|stringformat:"user.username" %}
+                  <a href="#ratingModal" class="modal-trigger modal-close waves-effect waves-green btn-flat">Fullfør handel</a>
+                {% endifequal %}
+                <a href="#modal3" class="modal-trigger modal-close waves-effect waves-green btn-flat">Rapportér bruker</a>
+                <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
+              </div>
+            </div>
+
+            <!-- Modal Structure -->
+            <div id="modal3" class="modal">
+              <div class="modal-content">
+                <h5> Begrunnelse for rapportering av {{ comment.author }} </h5>
+                <form method="POST" class="post-form">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+              </div>
+              <div class="modal-footer">
+                <button type="submit" href="#!" class="modal-close waves-effect waves-green btn-flat">Send</button>
+              </div>
+            </div>
+
             <p>{{ comment.text|linebreaks }}</p>
             <div class="date">{{ comment.created_date }}</div>
             </div>
@@ -42,7 +150,11 @@
             </div>
             <div>
 
+<<<<<<< HEAD
                   {% if post.author.username == user.username %}
+=======
+        {% if loan.author.username == user.username %}
+>>>>>>> fefc392af76585682f1211bdf45a77046e35818e
           <a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'request_delete' pk=post.pk %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons"</i>delete</a>
                   {% endif %}
               </div>
