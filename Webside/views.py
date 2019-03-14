@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from .models import Post, Comment, Loan, Community
+from .models import Post, Comment, Loan, Community, Trade
 from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, ReportForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -43,17 +43,39 @@ def requests(request):
     return render(request, 'webside/requests.html', context)
 
 def requests_detail(request, pk):
-    post= get_object_or_404(Post, pk=pk)
+    print("1")
+    post = get_object_or_404(Post, pk=pk)
+    print(request.method)
     if request.method == "POST":
-        form = ReportForm(request.POST)
-        if form.is_valid():
-            report = form.save(commit=False)
-            report.user1 = request.user
-            report.user2 = post.author
-            report.save()
-            return redirect('requests_detail', pk=post.pk)
+        print("6")
+        if 'report_post' in request.POST:
+            print("2")
+            form = ReportForm(request.POST)
+            if form.is_valid():
+                report = form.save(commit=False)
+                report.user1 = request.user
+                report.user2 = post.author
+                report.save()
+                return redirect('requests_detail', pk=post.pk)
+        elif 'report_comment' in request.POST:
+            print("3")
+            form = ReportForm(request.POST)
+            if form.is_valid():
+                report = form.save(commit=False)
+                report.user1 = request.user
+                report.user2 = request.user
+                report.save()
+                return redirect('requests_detail', pk=post.pk)
     else:
         form = ReportForm()
+    if 'finish' in request.GET:
+        print("4")
+        print(request.GET.get('star'))
+        trade = Trade(user1 = request.user, user2 = request.user, rating = 5)
+        trade.save()
+        request.user.profile.given += 1
+        #comment.author.gotten += 1
+        return redirect('requests_detail', pk=post.pk)
     return render(request, 'webside/requests_detail.html', {'post': post, 'form': form})
 
 def requests_new(request):
@@ -95,7 +117,9 @@ def loans_detail(request, pk):
     loan= get_object_or_404(Loan, pk=pk)
     if request.method == "POST":
         form = ReportForm(request.POST)
+        print("3")
         if form.is_valid():
+            print("2")
             report = form.save(commit=False)
             report.user1 = request.user
             report.user2 = loan.author
@@ -178,6 +202,7 @@ def add_comment_to_post(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
+            comment.author = request.user
             comment.save()
             return redirect('requests_detail', pk=post.pk)
     else:
@@ -191,6 +216,7 @@ def add_comment_to_loan(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.loan = loan
+            comment.author = request.user
             comment.save()
             return redirect('loans_detail', pk=loan.pk)
     else:

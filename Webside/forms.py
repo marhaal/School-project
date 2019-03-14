@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment, Loan, Comment2, Community, Report
+from .models import Post, Comment, Loan, Comment2, Community, Report, Trade
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -27,15 +27,15 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ('author', 'text',)
-        labels = {'author': "Navn", 'text': 'Tekst'}
+        fields = ('text',)
+        labels = {'text': 'Tekst'}
 
 class CommentForm2(forms.ModelForm):
 
     class Meta:
         model = Comment2
-        fields = ('author', 'text',)
-        labels = {'author': "Navn", 'text': 'Tekst'}
+        fields = ('text',)
+        labels = {'text': 'Tekst'}
 
 class LoansForm(forms.ModelForm):
     community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), to_field_name='name')

@@ -29,7 +29,8 @@ class Profile(models.Model):
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     email_confirmed = models.BooleanField(default=False)
-
+    given = models.IntegerField(default=0)
+    gotten = models.IntegerField(default=0)
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
@@ -40,7 +41,7 @@ def update_user_profile(sender, instance, created, **kwargs):
 
 class Comment(models.Model):
     post = models.ForeignKey('Webside.Post', on_delete=models.CASCADE, related_name='comments')
-    author = models.CharField(max_length=200)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='author')
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
 
@@ -49,7 +50,7 @@ class Comment(models.Model):
 
 class Comment2(models.Model):
     loan = models.ForeignKey('Webside.Loan', on_delete=models.CASCADE, related_name='comments2')
-    author = models.CharField(max_length=200)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='author2')
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
 
@@ -82,12 +83,6 @@ class Community(models.Model):
     def __str__(self):
         return self.name
 
-class PickCommunity(models.Model):
-    community = models.ForeignKey('Webside.Community', on_delete=models.CASCADE, null=True)
-
-    def _str_(self):
-        return self.community
-
 class Report(models.Model):
     reason = models.TextField()
     user1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_reporting')
@@ -95,3 +90,9 @@ class Report(models.Model):
 
     def _str_(self):
         return self.user2
+
+class Trade(models.Model):
+    rating = models.IntegerField()
+    user1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_giving', null=True)
+    user2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_get', null=True)
+    post = models.ForeignKey('Webside.Post', on_delete=models.CASCADE, related_name='post_given', null=True)
