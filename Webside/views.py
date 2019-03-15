@@ -43,13 +43,10 @@ def requests(request):
     return render(request, 'webside/requests.html', context)
 
 def requests_detail(request, pk):
-    print("1")
     post = get_object_or_404(Post, pk=pk)
     print(request.method)
     if request.method == "POST":
-        print("6")
         if 'report_post' in request.POST:
-            print("2")
             form = ReportForm(request.POST)
             if form.is_valid():
                 report = form.save(commit=False)
@@ -58,24 +55,25 @@ def requests_detail(request, pk):
                 report.save()
                 return redirect('requests_detail', pk=post.pk)
         elif 'report_comment' in request.POST:
-            print("3")
             form = ReportForm(request.POST)
             if form.is_valid():
                 report = form.save(commit=False)
                 report.user1 = request.user
-                report.user2 = request.user
+                report.user2 = request.comment.author
                 report.save()
                 return redirect('requests_detail', pk=post.pk)
     else:
         form = ReportForm()
     if 'finish' in request.GET:
-        print("4")
-        print(request.GET.get('star'))
         trade = Trade(user1 = request.user, user2 = request.user, rating = 5)
         trade.save()
         request.user.profile.given += 1
+        request.user.save()
         #comment.author.gotten += 1
-        return redirect('requests_detail', pk=post.pk)
+        #comment.author.save()
+        post.active = False
+        post.save()
+        return redirect('requests')
     return render(request, 'webside/requests_detail.html', {'post': post, 'form': form})
 
 def requests_new(request):
@@ -115,18 +113,37 @@ def loans(request):
 
 def loans_detail(request, pk):
     loan= get_object_or_404(Loan, pk=pk)
+    print("2")
     if request.method == "POST":
-        form = ReportForm(request.POST)
-        print("3")
-        if form.is_valid():
-            print("2")
-            report = form.save(commit=False)
-            report.user1 = request.user
-            report.user2 = loan.author
-            report.save()
+        if 'report_loan' in request.POST:
+            form = ReportForm(request.POST)
+            if form.is_valid():
+                report = form.save(commit=False)
+                report.user1 = request.user
+                report.user2 = loan.author
+                report.save()
             return redirect('loans_detail', pk=loan.pk)
+        elif 'report_comment' in request.POST:
+            form = ReportForm(request.POST)
+            if form.is_valid():
+                report = form.save(commit=False)
+                report.user1 = request.user
+                report.user2 = request.user
+                report.save()
+                return redirect('loans_detail', pk=loan.pk)
     else:
         form = ReportForm()
+    if 'finish' in request.GET:
+        print("1")
+        trade = Trade(user1 = request.user, user2 = request.user, rating = 5)
+        trade.save()
+        request.user.profile.given += 1
+        request.user.save()
+        #comment.author.gotten += 1
+        #comment.author.save()
+        loan.active = False
+        loan.save()
+        return redirect('loans')
     return render(request, 'webside/loans_detail.html', {'loan': loan, 'form': form})
 
 def loans_new(request):

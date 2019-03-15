@@ -13,10 +13,10 @@
               <div class="black-text">
               <p>{{ loan.community }}</p>
               </div>
-              <a class="modal-trigger" style="margin:auto" href="#modal1"><p>{{ loan.author }}</p></a>
+              <a class="modal-trigger" style="margin:auto" href="#profileView"><p>{{ loan.author }}</p></a>
 
-              <!-- Modal Structure -->
-              <div id="modal1" class="modal">
+              <!-- Modal Structure  overview profile loan-->
+              <div id="profileView" class="modal">
                 <div class="modal-content">
                   <h4>{{ loan.author }}</h4>
                   <p>Rating: 4</p>
@@ -24,13 +24,16 @@
                   <p>Sum: 86</p>
                 </div>
                 <div class="modal-footer">
-                  <a href="#modal4" class="modal-trigger modal-close waves-effect waves-green btn-flat">Rapportér bruker</a>
+                  {% ifnotequal loan.author.username user.username %}
+                    <a href="#reportLoan" class="modal-trigger modal-close waves-effect waves-red btn-flat">Rapportér bruker</a>
+                  {% endifnotequal %}
                   <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
                 </div>
               </div>
 
-              <!-- Modal Structure -->
-              <div id="modal4" class="modal">
+              <!-- Modal Structure reason for report-->
+              <div id="reportLoan" class="modal">
+                <form method="POST" class="post-form">
                 <div class="modal-content">
                   <h5> Begrunnelse for rapportering av {{ loan.author }} </h5>
                   <form method="POST" class="post-form">
@@ -38,8 +41,9 @@
                     {{ form.as_p }}
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" href="#!" class="modal-close waves-effect waves-green btn-flat">Send</button>
+                  <button type="submit" href="{% url 'loans_detail' pk=loan.pk %}" class="modal-close waves-effect waves-green btn-flat" name="report_loan">Send</button>
                 </div>
+                </form>
               </div>
 
               {% if loan.published_date %}
@@ -59,9 +63,56 @@
             <div class="divider"></div>
                 <div class="section">
                     <div class="comment">
-                            <a class="modal-trigger" style="margin:auto" href="#modal2"><strong>{{ comment.author }}</strong></a>
-                            <!-- Modal Structure -->
-                            <div id="modal2" class="modal">
+                            <a class="modal-trigger" style="margin:auto" href="#profileViewComment"><strong>{{ comment.author }}</strong></a>
+
+                            <!-- Modal Structure rating/finish trade-->
+                            <div id="ratingModal" class="modal">
+                              <div class="modal-content">
+                                <p>Gi rating til {{ comment.author }}:</p>
+                                <section class='rating-widget'>
+
+                                  <!-- Rating Stars Box -->
+                                    <div class='row center'>
+                                      <ul class="center-align valgin" id='stars'>
+                                        <div class="col offset-s2">
+                                          <li class='star' title='Poor' data-value='1'>
+                                            <a onclick="give1Star()" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                                          </li>
+                                        </div>
+                                        <div class="col">
+                                          <li class='star' title='Fair' data-value='2'>
+                                            <a onclick="give2Star()" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                                          </li>
+                                        </div>
+                                        <div class="col">
+                                          <li class='star' title='Good' data-value='3'>
+                                            <a onclick="give3Star()" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                                          </li>
+                                        </div>
+                                        <div class="col">
+                                          <li class='star' title='Excellent' data-value='4'>
+                                            <a onclick="give4Star()" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                                          </li>
+                                        </div>
+                                        <div class="col">
+                                          <li class='star' title='WOW!!!' data-value='5'>
+                                            <a onclick="give5Star()" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                                          </li>
+                                        </div>
+                                      </ul>
+                                  </div>
+                                </section>
+                              </div>
+                              <form method="GET" class="get-class">
+                              <p id="demo">Du kan gi fra 1 til 5 stjerner</p>
+                              <div class="modal-footer">
+                                <button type="submit" href="{% url 'loans_detail' pk=loan.pk %}" class="modal-close waves-effect waves-green btn-flat" name="finish">Send</button>
+                              </div>
+                              </form>
+                            </div>
+
+                            <!-- Modal Structure  overview profile comment-->
+                            <div id="profileViewComment" class="modal">
                               <div class="modal-content">
                                 <h4>{{ comment.author }}</h4>
                                 <p>Rating: 4</p>
@@ -69,12 +120,19 @@
                                 <p>Sum: 16</p>
                               </div>
                               <div class="modal-footer">
-                                <a href="#modal3" class="modal-trigger modal-close waves-effect waves-green btn-flat">Rapportér bruker</a>
+                                {% if loan.author.username == user.username %}
+                                  {% ifnotequal comment.author.username user.username %}
+                                  <a href="#ratingModal" class="modal-trigger modal-close waves-effect waves-green btn-flat">Fullfør handel</a>
+                                  {% endifnotequal %}
+                                {% endif %}
+                                {% ifnotequal comment.author.username user.username %}
+                                <a href="#reportComment" class="modal-trigger modal-close waves-effect waves-red btn-flat">Rapportér bruker</a>
+                                {% endifnotequal %}
                                 <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
                               </div>
                             </div>
-                            <!-- Modal Structure -->
-                            <div id="modal3" class="modal">
+                            <!-- Modal Structure report comment-->
+                            <div id="reportComment" class="modal">
                               <div class="modal-content">
                                 <h5> Begrunnelse for rapportering av {{ comment.author }} </h5>
                                 <form method="POST" class="post-form">
@@ -82,7 +140,7 @@
                                   {{ form.as_p }}
                               </div>
                               <div class="modal-footer">
-                                <button type="submit" href="#!" class="modal-close waves-effect waves-green btn-flat">Send</button>
+                                <button type="submit" href="{% url 'loans_detail' pk=loan.pk %}" class="modal-close waves-effect waves-green btn-flat" name="report_comment">Send</button>
                               </div>
                             </div>
                             <p>{{ comment.text|linebreaks }}</p>
@@ -96,7 +154,7 @@
     <div>
 
         {% if loan.author.username == user.username %}
-<a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'loan_delete' pk=loan.pk %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons"</i>delete</a>
+        <a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'loan_delete' pk=loan.pk %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons"</i>delete</a>
         {% endif %}
     </div>
 

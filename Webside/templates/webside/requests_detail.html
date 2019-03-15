@@ -13,9 +13,10 @@
             <div class="black-text">
             <p>{{ post.community }}</p>
             </div>
-            <a class="modal-trigger" style="margin:auto" href="#modal1"><p>{{ post.author }}</p></a>
-            <!-- Modal Structure -->
-            <div id="modal1" class="modal">
+            <a class="modal-trigger" style="margin:auto" href="#profileView"><p>{{ post.author }}</p></a>
+
+            <!-- Modal Structure  overview profile post-->
+            <div id="profileView" class="modal">
               <div class="modal-content">
               <h4>{{ post.author }}</h4>
                 <p>Rating: 4</p>
@@ -23,13 +24,15 @@
                 <p>Sum: 86</p>
               </div>
               <div class="modal-footer">
-                <a href="#modal4" class="modal-trigger modal-close waves-effect waves-red btn-flat">Rapportér bruker</a>
+                {% ifnotequal post.author.username user.username %}
+                  <a href="#reportPost" class="modal-trigger modal-close waves-effect waves-red btn-flat">Rapportér bruker</a>
+                {% endifnotequal %}
                 <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
               </div>
             </div>
 
-            <!-- Modal Structure -->
-            <div id="modal4" class="modal">
+            <!-- Modal Structure reason for report-->
+            <div id="reportPost" class="modal">
               <form method="POST" class="post-form">
               <div class="modal-content">
                 <h5> Begrunnelse for rapportering av {{ post.author }} </h5>
@@ -59,8 +62,9 @@
             <div class="divider"></div>
             <div class="section">
             <div class="comment">
-            <a class="modal-trigger" style="margin:auto" href="#modal2"><strong>{{ comment.author }}</strong></a>
-            <!-- Modal Structure -->
+            <a class="modal-trigger" style="margin:auto" href="#profileViewComment"><strong>{{ comment.author }}</strong></a>
+
+            <!-- Modal Structure rating/finish trade-->
             <div id="ratingModal" class="modal">
               <div class="modal-content">
                 <p>Gi rating til {{ comment.author }}:</p>
@@ -105,8 +109,9 @@
               </div>
               </form>
             </div>
-            <!-- Modal Structure -->
-            <div id="modal2" class="modal">
+
+            <!-- Modal Structure overview profile comment-->
+            <div id="profileViewComment" class="modal">
               <div class="modal-content">
               <h4>{{ comment.author }}</h4>
                 <p>Rating: 4</p>
@@ -115,15 +120,19 @@
               </div>
               <div class="modal-footer">
                 {% if post.author.username == user.username %}
+                  {% ifnotequal comment.author.username user.username %}
                   <a href="#ratingModal" class="modal-trigger modal-close waves-effect waves-green btn-flat">Fullfør handel</a>
+                  {% endifnotequal %}
                 {% endif %}
-                <a href="#modal3" class="modal-trigger modal-close waves-effect waves-green btn-flat">Rapportér bruker</a>
+                {% ifnotequal comment.author.username user.username %}
+                <a href="#reportComment" class="modal-trigger modal-close waves-effect waves-red btn-flat">Rapportér bruker</a>
+                {% endifnotequal %}
                 <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
               </div>
             </div>
 
-            <!-- Modal Structure -->
-            <div id="modal3" class="modal">
+            <!-- Modal Structure report-->
+            <div id="reportComment" class="modal">
               <form method="POST" class="post-form">
               <div class="modal-content">
                 <h5> Begrunnelse for rapportering av {{ comment.author }} </h5>
