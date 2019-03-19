@@ -63,7 +63,7 @@
             <div class="divider"></div>
                 <div class="section">
                     <div class="comment">
-                            <a class="modal-trigger" style="margin:auto" href="#profileViewComment"><strong>{{ comment.author }}</strong></a>
+                            <a class="modal-trigger" style="margin:auto" href="#profileViewComment{{ comment.author.id }}"><strong>{{ comment.author }}</strong></a>
 
                             <!-- Modal Structure rating/finish trade-->
                             <div id="ratingModal" class="modal">
@@ -76,27 +76,27 @@
                                       <ul class="center-align valgin" id='stars'>
                                         <div class="col offset-s2">
                                           <li class='star' title='Poor' data-value='1'>
-                                            <a onclick="give1Star()" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                                            <a onclick="giveStar(1)" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                                           </li>
                                         </div>
                                         <div class="col">
                                           <li class='star' title='Fair' data-value='2'>
-                                            <a onclick="give2Star()" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                                            <a onclick="giveStar(2)" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                                           </li>
                                         </div>
                                         <div class="col">
                                           <li class='star' title='Good' data-value='3'>
-                                            <a onclick="give3Star()" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                                            <a onclick="giveStar(3)" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                                           </li>
                                         </div>
                                         <div class="col">
                                           <li class='star' title='Excellent' data-value='4'>
-                                            <a onclick="give4Star()" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                                            <a onclick="giveStar(4)" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                                           </li>
                                         </div>
                                         <div class="col">
                                           <li class='star' title='WOW!!!' data-value='5'>
-                                            <a onclick="give5Star()" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                                            <a onclick="giveStar(5)" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                                           </li>
                                         </div>
                                       </ul>
@@ -112,7 +112,7 @@
                             </div>
 
                             <!-- Modal Structure  overview profile comment-->
-                            <div id="profileViewComment" class="modal">
+                            <div id="profileViewComment{{ comment.author.id }}" class="modal">
                               <div class="modal-content">
                                 <h4>{{ comment.author }}</h4>
                                 <p>Rating: 4</p>
@@ -126,13 +126,13 @@
                                   {% endifnotequal %}
                                 {% endif %}
                                 {% ifnotequal comment.author.username user.username %}
-                                <a href="#reportComment" class="modal-trigger modal-close waves-effect waves-red btn-flat">Rapportér bruker</a>
+                                <a href="#reportComment{{ comment.author.id }}" class="modal-trigger modal-close waves-effect waves-red btn-flat">Rapportér bruker</a>
                                 {% endifnotequal %}
                                 <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
                               </div>
                             </div>
                             <!-- Modal Structure report comment-->
-                            <div id="reportComment" class="modal">
+                            <div id="reportComment{{ comment.author.id }}" class="modal">
                               <div class="modal-content">
                                 <h5> Begrunnelse for rapportering av {{ comment.author }} </h5>
                                 <form method="POST" class="post-form">

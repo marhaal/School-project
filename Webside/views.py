@@ -16,6 +16,7 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
+import json
 
 def homepage(request):
     return render(request, 'webside/home.html',{})
@@ -44,7 +45,6 @@ def requests(request):
 
 def requests_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    print(request.method)
     if request.method == "POST":
         if 'report_post' in request.POST:
             form = ReportForm(request.POST)
@@ -64,13 +64,16 @@ def requests_detail(request, pk):
                 return redirect('requests_detail', pk=post.pk)
     else:
         form = ReportForm()
-    if 'finish' in request.GET:
-        trade = Trade(user1 = request.user, user2 = request.user, rating = 5)
+    if request.method == "GET" and request.is_ajax():
+        data_string = request.GET.get('rating')
+        auth = request.GET.get('auth')
+        u2 = User.objects.get(username=auth)
+        trade = Trade(user1 = request.user, user2 = u2, rating = data_string, post = post)
         trade.save()
         request.user.profile.given += 1
         request.user.save()
-        #comment.author.gotten += 1
-        #comment.author.save()
+        u2.profile.gotten += 1
+        u2.save()
         post.active = False
         post.save()
         return redirect('requests')

@@ -98,3 +98,6 @@ class Trade(models.Model):
     user1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_giving', null=True)
     user2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_get', null=True)
     post = models.ForeignKey('Webside.Post', on_delete=models.CASCADE, related_name='post_given', null=True)
+
+    def __str__(self):
+        return self.post.title
