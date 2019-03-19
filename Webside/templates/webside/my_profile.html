@@ -1,0 +1,69 @@
+{% extends 'webside/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{% static "media/profile_pics/default.jpg" %}"
+        style=max-width:150px; max-height:200; "/>
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">{{ user.email }}</p>
+          {% for x in profile %}
+             <h5>{{x.birth_date}}</h5>
+             <h4>{{x.bio}}</h4>
+             <h4>{{x.location}}</h4>
+           {% endfor %}
+           {% for x in form %}
+              <h5>{{x.birth_date}}</h5>
+              <h4>{{x.bio}}</h4>
+              <h4>{{x.location}}</h4>
+            {% endfor %}
+
+          <p class="text-secondary">{{ user.gender }}</p>
+
+        </div>
+      </div>
+
+        <div class="row valign-wrapper">
+          <div class="col s6 offset-s3 valign" style ="margin-left:-20px;">
+            <div class="card">
+              <div class="card-content">
+                <form method="POST" class="request-form">
+                  {% csrf_token %}
+                      {% for field in form %}
+                        <p>
+                          {{ field.label_tag }}<br>
+                          {{ field }}
+
+                          {% for error in field.errors %}
+                            <p style="color: red">{{ error }}</p>
+                          {% endfor %}
+                        </p>
+                      {% endfor %}
+              </div>
+              <div class="card-action">
+              <button class="waves-effect waves-light btn blue lighten-1" type="submit">Send</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      </div>
+
+
+    <!--  <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Profile info</legend>
+
+              {{ form|crispy }}
+          </fieldset>
+          <div class="form-group">
+              <button class="btn btn-outline-info" type="submit">Update</button>
+          </div>
+      </form>
+  </div> !-->
+{% endblock content %}

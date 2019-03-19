@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment, Loan, Comment2, Community
+from .models import Post, Comment, Loan, Comment2, Community, Report, Trade_request, Trade_loan
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -27,15 +27,15 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ('author', 'text',)
-        labels = {'author': "Navn", 'text': 'Tekst'}
+        fields = ('text',)
+        labels = {'text': 'Tekst'}
 
 class CommentForm2(forms.ModelForm):
 
     class Meta:
         model = Comment2
-        fields = ('author', 'text',)
-        labels = {'author': "Navn", 'text': 'Tekst'}
+        fields = ('text',)
+        labels = {'text': 'Tekst'}
 
 class LoansForm(forms.ModelForm):
     community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), to_field_name='name')
@@ -52,8 +52,8 @@ class CommunityForm(forms.ModelForm):
         fields = ('name', 'text', 'address', 'longitude', 'latitude',)
         labels = {'name': "Navn", 'text': "Beskrivelse", 'address': "Adresse", 'longitude': "Lengdegrad", 'latitude': "Breddegrad"}
 
-class PickCommunity(forms.ModelForm):
-    community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), to_field_name='name')
+class ReportForm(forms.ModelForm):
     class Meta:
-        model = Community
-        fields=('community',)
+        model = Report
+        fields = ('reason',)
+        labels = {'reason': "",}
