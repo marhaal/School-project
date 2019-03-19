@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from .models import Post, Comment, Loan, Community, Trade
+from .models import Post, Comment, Loan, Community, Trade_request, Trade_loan
 from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, ReportForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -68,7 +68,7 @@ def requests_detail(request, pk):
         data_string = request.GET.get('rating')
         auth = request.GET.get('auth')
         u2 = User.objects.get(username=auth)
-        trade = Trade(user1 = request.user, user2 = u2, rating = data_string, post = post)
+        trade = Trade_request(giver = request.user, receiver = u2, rating = data_string, post = post)
         trade.save()
         request.user.profile.given += 1
         request.user.save()
@@ -136,14 +136,17 @@ def loans_detail(request, pk):
                 return redirect('loans_detail', pk=loan.pk)
     else:
         form = ReportForm()
-    if 'finish' in request.GET:
-        print("1")
-        trade = Trade(user1 = request.user, user2 = request.user, rating = 5)
+    if request.method == "GET" and request.is_ajax():
+        print("ajax")
+        data_string = request.GET.get('rating')
+        auth = request.GET.get('auth')
+        u2 = User.objects.get(username=auth)
+        trade = Trade_loan(giver = request.user, receiver = u2, rating = data_string, loan = loan)
         trade.save()
         request.user.profile.given += 1
         request.user.save()
-        #comment.author.gotten += 1
-        #comment.author.save()
+        u2.profile.gotten += 1
+        u2.save()
         loan.active = False
         loan.save()
         return redirect('loans')

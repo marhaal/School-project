@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment, Loan, Comment2, Community, Report, Trade
+from .models import Post, Comment, Loan, Comment2, Community, Report, Trade_request, Trade_loan
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 

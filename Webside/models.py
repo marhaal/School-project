@@ -93,11 +93,14 @@ class Report(models.Model):
     def _str_(self):
         return self.user2
 
-class Trade(models.Model):
+class Trade_request(models.Model):
     rating = models.IntegerField()
-    user1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_giving', null=True)
-    user2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_get', null=True)
+    giver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_giving', null=True)
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_get', null=True)
     post = models.ForeignKey('Webside.Post', on_delete=models.CASCADE, related_name='post_given', null=True)
 
-    def __str__(self):
-        return self.post.title
+class Trade_loan(models.Model):
+    rating = models.IntegerField()
+    giver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_giver', null=True)
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_receiver', null=True)
+    loan = models.ForeignKey('Webside.Loan', on_delete=models.CASCADE, related_name='loan_given', null=True)

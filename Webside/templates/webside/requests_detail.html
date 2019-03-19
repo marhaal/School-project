@@ -61,7 +61,7 @@
             <br><br>
             {% for comment in post.comments.all %}
             <script type="text/javascript">
-              var c_{{ }} = "{{ comment.author }}";
+              var c= "{{ comment.author }}";
             </script>
             <div class="divider"></div>
             <div class="section">
