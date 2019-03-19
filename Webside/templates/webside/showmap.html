@@ -1,8 +1,37 @@
 {% extends 'webside/base.html' %}
 {% load static %}
 {% block content %}
-
+<!--
+  <div class="card" style="max-width: 800px; margin:auto">
+     <div class="center-align">
+       <div class="card grey lighten-4">
+         <div class="card-content">
+            <form method="POST" class="request-form">
+                {% csrf_token %}
+                {% for field in form %}
+                    <p>
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+                    {% if field.help_text %}
+                      <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+                {% for error in field.errors %}
+                  <p style="color: red">{{ error }}</p>
+                {% endfor %}
+              </p>
+            {% endfor %}
+            <div class="card-action">
+                <button class="waves-effect waves-light btn blue lighten-1" type="submit">Velg</button>
+            </div>
+            </form>
+          </div>
+         </div>
+     </div>
+  </div>
+-->
 <div id="mapid" style="margin-left:auto;margin-right:auto;text-align:center"></div>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier-Leaflet/0.2.6/oms.min.js"></script>
 <script type="text/javascript" src = "{% static 'js/map.js' %}"></script>
 <script type="text/javascript">
@@ -11,15 +40,52 @@
   };
   var oms = new OverlappingMarkerSpiderfier(mymap, options);
 
-  {% for loan in loans %}
-  lon = {{loan.community.longitude}}
-  lat = {{loan.community.latitude}}
-  cord = [lon, lat]
-  var marker = L.marker(cord).addTo(mymap);
-  marker.bindPopup("<b>{{loan.title}}</b><br>{{loan.author}}");
-  mymap.addLayer(marker);
-  oms.addMarker(marker);
-  {% endfor %}
+  var geocoder = L.Control.geocoder({
+          defaultMarkGeocode: false
+      })
+      .on('markgeocode', function(e) {
+          var bbox = e.geocode.bbox;
+
+          mymap.fitBounds(e.geocode.bbox);
+      })
+      .addTo(mymap);
+
+          {% for loan in loans %}
+              lon = {{loan.community.longitude}}
+              lat = {{loan.community.latitude}}
+
+              cord = [lon, lat]
+              var marker = L.marker(cord)
+              marker.addTo(mymap);
+              marker.bindPopup('<a href="{% url 'loans_detail' pk=loan.pk %}"><b>{{loan.title}}</b></a><br>{{loan.author}}');
+              mymap.addLayer(marker);
+
+              oms.addMarker(marker);
+          {% endfor %}
+
+
+
+
+
+
+
 </script>
 
 {% endblock %}
+
+<!--
+{% if community == "---------" %}
+{% else %}
+    {% for loan in loans %}
+        {% if community == loan.community %}
+        lon = {{loan.community.longitude}}
+        lat = {{loan.community.latitude}}
+        cord = [lon, lat]
+        var marker = L.marker(cord).addTo(mymap);
+        marker.bindPopup("<b>{{loan.title}}</b><br>{{loan.author}}");
+        mymap.addLayer(marker);
+        oms.addMarker(marker);
+        {% endif %}
+    {% endfor %}
+{% endif %}
+-->

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from .models import Post, Comment, Loan, Community
-from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm
+from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, PickCommunity
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -195,16 +195,12 @@ def communitylist(request):
 
 def showmap(request):
     loans=Loan.objects.all()
-#/  communities=Community.objects.all()
-#    if request.method == "POST":
-#        form = PickCommunityForm(request.POST)
-#        if form.is_valid():
-#            community = form.save(commit=False)
-#            community.save()
-#            return redirect('showmap')
-#    else:
-#       form = CommunityForm()
-    return render(request, 'webside/showmap.html', {'loans': loans})
+    communities=Community.objects.all()
+    if request.method == "POST":
+        form = PickCommunity(request.POST)
+    else:
+        form = PickCommunity()
+    return render(request, 'webside/showmap.html', {'loans': loans, 'communities': communities, 'form': form})
 
 def loan_delete(request, pk):
     loan = get_object_or_404(Loan, pk=pk)

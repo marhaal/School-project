@@ -84,6 +84,5 @@ class Community(models.Model):
 
 class PickCommunity(models.Model):
     community = models.ForeignKey('Webside.Community', on_delete=models.CASCADE, null=True)
-
     def _str_(self):
         return self.community
