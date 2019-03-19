@@ -2,18 +2,24 @@
 {% load static %}
 {% block content %}
 
-  <div id="mapid" style="margin-left:auto;margin-right:auto;text-align:center"></div>
-  <script type="text/javascript" src = "{% static 'js/map.js' %}"></script>
-  <script type="text/javascript">
+<div id="mapid" style="margin-left:auto;margin-right:auto;text-align:center"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier-Leaflet/0.2.6/oms.min.js"></script>
+<script type="text/javascript" src = "{% static 'js/map.js' %}"></script>
+<script type="text/javascript">
+  var options = {  //**spiderfier
+    keepSpiderfied: true,
+  };
+  var oms = new OverlappingMarkerSpiderfier(mymap, options);
 
-
-    {% for loan in loans %}
-    lon = {{loan.community.longitude}}
-    lat = {{loan.community.latitude}}
-    cord = [lon, lat]
-    var marker = L.marker(cord).addTo(mymap);
-    marker.bindPopup("<b>{{loan.title}}</b><br>{{loan.author}}");
-    {% endfor %}
-  </script>
+  {% for loan in loans %}
+  lon = {{loan.community.longitude}}
+  lat = {{loan.community.latitude}}
+  cord = [lon, lat]
+  var marker = L.marker(cord).addTo(mymap);
+  marker.bindPopup("<b>{{loan.title}}</b><br>{{loan.author}}");
+  mymap.addLayer(marker);
+  oms.addMarker(marker);
+  {% endfor %}
+</script>
 
 {% endblock %}
