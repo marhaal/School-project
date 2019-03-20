@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from .models import Post, Comment, Loan, Community
-from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm
+from .models import Post, Comment, Loan, Community, Trade_request, Trade_loan
+from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, ReportForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -16,6 +16,7 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
+import json
 
 def homepage(request):
     return render(request, 'webside/home.html',{})
@@ -43,8 +44,40 @@ def requests(request):
     return render(request, 'webside/requests.html', context)
 
 def requests_detail(request, pk):
-    post= get_object_or_404(Post, pk=pk)
-    return render(request, 'webside/requests_detail.html', {'post': post})
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        if 'report_post' in request.POST:
+            form = ReportForm(request.POST)
+            if form.is_valid():
+                report = form.save(commit=False)
+                report.user1 = request.user
+                report.user2 = post.author
+                report.save()
+                return redirect('requests_detail', pk=post.pk)
+        elif 'report_comment' in request.POST:
+            form = ReportForm(request.POST)
+            if form.is_valid():
+                report = form.save(commit=False)
+                report.user1 = request.user
+                report.user2 = request.comment.author
+                report.save()
+                return redirect('requests_detail', pk=post.pk)
+    else:
+        form = ReportForm()
+    if request.method == "GET" and request.is_ajax():
+        data_string = request.GET.get('rating')
+        auth = request.GET.get('auth')
+        u2 = User.objects.get(username=auth)
+        trade = Trade_request(giver = request.user, receiver = u2, rating = data_string, post = post)
+        trade.save()
+        request.user.profile.given += 1
+        request.user.save()
+        u2.profile.gotten += 1
+        u2.save()
+        post.active = False
+        post.save()
+        return redirect('requests')
+    return render(request, 'webside/requests_detail.html', {'post': post, 'form': form})
 
 def requests_new(request):
     if request.method == "POST":
@@ -83,7 +116,41 @@ def loans(request):
 
 def loans_detail(request, pk):
     loan= get_object_or_404(Loan, pk=pk)
-    return render(request, 'webside/loans_detail.html', {'loan': loan})
+    print("2")
+    if request.method == "POST":
+        if 'report_loan' in request.POST:
+            form = ReportForm(request.POST)
+            if form.is_valid():
+                report = form.save(commit=False)
+                report.user1 = request.user
+                report.user2 = loan.author
+                report.save()
+            return redirect('loans_detail', pk=loan.pk)
+        elif 'report_comment' in request.POST:
+            form = ReportForm(request.POST)
+            if form.is_valid():
+                report = form.save(commit=False)
+                report.user1 = request.user
+                report.user2 = request.user
+                report.save()
+                return redirect('loans_detail', pk=loan.pk)
+    else:
+        form = ReportForm()
+    if request.method == "GET" and request.is_ajax():
+        print("ajax")
+        data_string = request.GET.get('rating')
+        auth = request.GET.get('auth')
+        u2 = User.objects.get(username=auth)
+        trade = Trade_loan(giver = request.user, receiver = u2, rating = data_string, loan = loan)
+        trade.save()
+        request.user.profile.given += 1
+        request.user.save()
+        u2.profile.gotten += 1
+        u2.save()
+        loan.active = False
+        loan.save()
+        return redirect('loans')
+    return render(request, 'webside/loans_detail.html', {'loan': loan, 'form': form})
 
 def loans_new(request):
     if request.method == "POST":
@@ -158,6 +225,7 @@ def add_comment_to_post(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
+            comment.author = request.user
             comment.save()
             return redirect('requests_detail', pk=post.pk)
     else:
@@ -171,6 +239,7 @@ def add_comment_to_loan(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.loan = loan
+            comment.author = request.user
             comment.save()
             return redirect('loans_detail', pk=loan.pk)
     else:
@@ -195,16 +264,12 @@ def communitylist(request):
 
 def showmap(request):
     loans=Loan.objects.all()
-#/  communities=Community.objects.all()
-#    if request.method == "POST":
-#        form = PickCommunityForm(request.POST)
-#        if form.is_valid():
-#            community = form.save(commit=False)
-#            community.save()
-#            return redirect('showmap')
-#    else:
-#       form = CommunityForm()
-    return render(request, 'webside/showmap.html', {'loans': loans})
+    communities=Community.objects.all()
+    if request.method == "POST":
+        form = PickCommunity(request.POST)
+    else:
+        form = PickCommunity()
+    return render(request, 'webside/showmap.html', {'loans': loans, 'communities': communities, 'form': form})
 
 def loan_delete(request, pk):
     loan = get_object_or_404(Loan, pk=pk)

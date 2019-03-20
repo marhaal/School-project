@@ -13,6 +13,7 @@
   </form>
 <a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'requests_new' %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons">add</i></a>
   {% for post in items %}
+  {% if post.active %}
   <div class="card" style="max-width: 800px; margin:auto">
            <div class="center-align">
                <div class="card grey lighten-4">
@@ -27,6 +28,7 @@
                  </div>
              </div>
        </div>
+  {% endif %}
   {% endfor %}
   <div class="pagination">
       <span class="step-links">
