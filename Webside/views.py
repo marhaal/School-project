@@ -280,3 +280,7 @@ def request_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
     return redirect('requests')
+
+
+def contact(request):
+    return render(request, 'webside/contact.html')
