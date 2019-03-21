@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from .models import Post, Comment, Loan, Community, Trade_request, Trade_loan
-from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, ReportForm
+from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, ReportForm, ContactForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -281,6 +281,16 @@ def request_delete(request, pk):
     post.delete()
     return redirect('requests')
 
-
 def contact(request):
-    return render(request, 'webside/contact.html')
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            contact = form.save(commit=False)
+            contact.user = request.user
+            contact.save()
+            return redirect('contact')
+    else:
+        form = ContactForm()
+    form.fields['issue_alternative'].label = "Velg et alternativ"
+    form.fields['issue_text'].label = "Tekst"
+    return render(request, 'webside/contact.html', {'form': form})

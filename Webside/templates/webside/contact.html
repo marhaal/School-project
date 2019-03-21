@@ -1,8 +1,18 @@
 {% extends 'webside/base.html' %}
 
 {% block content %}
-    <h4 class="center" style="color:#336699; font-variant: small-caps;">kontaktinfo</h4>
-
-    <h4 class="center" style="color:#336699; font-variant: small-caps;">ønsker du å gi tilbakemelding angående nettsiden?</h4>
-
+    <h4 class="center" style="color:#336699; font-variant: small-caps;">kontakt oss</h4>
+    <div class="container">
+    <div class="row valign-wrapper">
+      <div class="col s8 offset-s3 valign">
+          <div class="card-content white-text">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="waves-effect waves-light btn" type="submit">Send</button>
+    </form>
+    </div>
+    </div>
+    </div>
+    </div>
 {% endblock %}
