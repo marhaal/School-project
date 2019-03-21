@@ -1,6 +1,7 @@
 {% extends 'webside/base.html' %}
 
 {% block content %}
+
 <a class="btn btn-default" href="{% url 'requests' %}" style="margin-left:-100px;"><i class="large material-icons">navigate_before</i>
 </a>
 <div class="card" style="max-width: 800px; margin:auto">
@@ -13,32 +14,36 @@
             <div class="black-text">
             <p>{{ post.community }}</p>
             </div>
-            <a class="modal-trigger" style="margin:auto" href="#modal1"><p>{{ post.author }}</p></a>
-            <!-- Modal Structure -->
-            <div id="modal1" class="modal">
+            <a class="modal-trigger" style="margin:auto" href="#profileView"><p>{{ post.author }}</p></a>
+
+            <!-- Modal Structure  overview profile post-->
+            <div id="profileView" class="modal">
               <div class="modal-content">
               <h4>{{ post.author }}</h4>
                 <p>Rating: 4</p>
-                <p>Karma: gitt 14, fått 12</p>
+                <p>Karma: gitt {{ post.author.given}}, fått {{ post.author.gotten}}</p>
                 <p>Sum: 86</p>
               </div>
               <div class="modal-footer">
-                <a href="#modal4" class="modal-trigger modal-close waves-effect waves-red btn-flat">Rapportér bruker</a>
+                {% ifnotequal post.author.username user.username %}
+                  <a href="#reportPost" class="modal-trigger modal-close waves-effect waves-red btn-flat">Rapportér bruker</a>
+                {% endifnotequal %}
                 <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
               </div>
             </div>
 
-            <!-- Modal Structure -->
-            <div id="modal4" class="modal">
+            <!-- Modal Structure reason for report-->
+            <div id="reportPost" class="modal">
+              <form method="POST" class="post-form">
               <div class="modal-content">
                 <h5> Begrunnelse for rapportering av {{ post.author }} </h5>
-                <form method="POST" class="post-form">
                   {% csrf_token %}
                   {{ form.as_p }}
               </div>
               <div class="modal-footer">
-                <button type = "submit" href="#!" class="modal-close waves-effect waves-green btn-flat">Send</button>
+                <button type = "submit" href="{% url 'requests_detail' pk=post.pk %}" class="modal-close waves-effect waves-green btn-flat" name="report_post">Send</button>
               </div>
+              </form>
             </div>
 
               {% if post.published_date %}
@@ -55,89 +60,91 @@
             <a class="btn btn-default" style="margin:auto" href="{% url 'add_comment_to_post' pk=post.pk %}">Legg igjen en kommentar</a>
             <br><br>
             {% for comment in post.comments.all %}
+            <script type="text/javascript">
+              var c= "{{ comment.author }}";
+            </script>
             <div class="divider"></div>
             <div class="section">
             <div class="comment">
-            <a class="modal-trigger" style="margin:auto" href="#modal2"><strong>{{ comment.author }}</strong></a>
-            <!-- Modal Structure -->
+            <a class="modal-trigger" style="margin:auto" href="#profileViewComment{{ comment.author.id }}"><strong>{{ comment.author }}</strong></a>
+
+            <!-- Modal Structure rating/finish trade-->
             <div id="ratingModal" class="modal">
               <div class="modal-content">
-              <h4>{{ post.author }}</h4>
-                <p>Gi rating:</p>
+                <p>Gi rating til {{ comment.author }}:</p>
                 <section class='rating-widget'>
 
                   <!-- Rating Stars Box -->
-                  <div class='center'>
-                    <div class='row'>
-                      <ul id='stars'>
-                        <div class="col s1">
+                    <div class='row center'>
+                      <ul class="center-align valgin" id='stars'>
+                        <div class="col offset-s2">
                           <li class='star' title='Poor' data-value='1'>
-                            <i class="material-icons">star</i>
+                            <a onclick="giveStar(1, '{{ comment.author.username }}')" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                           </li>
                         </div>
-                        <div class="col s1">
+                        <div class="col">
                           <li class='star' title='Fair' data-value='2'>
-                            <i class="material-icons">star</i>
+                            <a onclick="giveStar(2, '{{ comment.author.username }}')" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                           </li>
                         </div>
-                        <div class="col s1">
+                        <div class="col">
                           <li class='star' title='Good' data-value='3'>
-                            <i class="material-icons">star</i>
+                            <a onclick="giveStar(3, '{{ comment.author.username }}')" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                           </li>
                         </div>
-                        <div class="col s1">
+                        <div class="col">
                           <li class='star' title='Excellent' data-value='4'>
-                            <i class="material-icons">star</i>
+                            <a onclick="giveStar(4, '{{ comment.author.username }}')" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                           </li>
                         </div>
-                        <div class="col s1">
+                        <div class="col">
                           <li class='star' title='WOW!!!' data-value='5'>
-                            <i class="material-icons">star</i>
+                            <a onclick="giveStar(5, '{{ comment.author.username }}')" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                           </li>
                         </div>
                       </ul>
-                    </div>
-                  </div>
-
-                  <div class='success-box'>
-                    <div class='clearfix'></div>
-                    <div class='text-message'></div>
-                    <div class='clearfix'></div>
                   </div>
                 </section>
               </div>
+              <p id="demo">Du kan gi fra 1 til 5 stjerner</p>
               <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Send</a>
+                <button type="submit" class="modal-close waves-effect waves-green btn-flat" id="finish" name="finish">Send</button>
               </div>
             </div>
-            <!-- Modal Structure -->
-            <div id="modal2" class="modal">
+
+            <!-- Modal Structure overview profile comment-->
+            <div id="profileViewComment{{ comment.author.id }}" class="modal">
               <div class="modal-content">
               <h4>{{ comment.author }}</h4>
                 <p>Rating: 4</p>
-                <p>Karma: gitt 14, fått 12</p>
-                <p>Sum: 86</p>
+                <p>Karma: gitt {{ comment.author.profile.given }}, fått {{ comment.author.profile.gotten }}</p>
+                <p>Sum: {% widthratio comment.author.profile.given 1 4 %}</p>
               </div>
               <div class="modal-footer">
-                {% ifequal value|stringformat:"loan.author" value|stringformat:"user.username" %}
+                {% if post.author.username == user.username %}
+                  {% ifnotequal comment.author.username user.username %}
                   <a href="#ratingModal" class="modal-trigger modal-close waves-effect waves-green btn-flat">Fullfør handel</a>
-                {% endifequal %}
-                <a href="#modal3" class="modal-trigger modal-close waves-effect waves-green btn-flat">Rapportér bruker</a>
+                  {% endifnotequal %}
+                {% endif %}
+                {% ifnotequal comment.author.username user.username %}
+                <a href="#reportComment{{ comment.author.id }}" class="modal-trigger modal-close waves-effect waves-red btn-flat">Rapportér bruker</a>
+                {% endifnotequal %}
                 <a href="#!" class="modal-close waves-effect waves-red btn-flat">Lukk</a>
               </div>
             </div>
 
-            <!-- Modal Structure -->
-            <div id="modal3" class="modal">
+            <!-- Modal Structure report-->
+            <div id="reportComment{{ comment.author.id }}" class="modal">
+              <form method="POST" class="post-form">
               <div class="modal-content">
                 <h5> Begrunnelse for rapportering av {{ comment.author }} </h5>
-                <form method="POST" class="post-form">
                   {% csrf_token %}
                   {{ form.as_p }}
               </div>
               <div class="modal-footer">
-                <button type="submit" href="#!" class="modal-close waves-effect waves-green btn-flat">Send</button>
+                <button type = "submit" href="{% url 'requests_detail' pk=post.pk %}" class="modal-close waves-effect waves-green btn-flat" name="report_comment">Send</button>
               </div>
+              </form>
             </div>
 
             <p>{{ comment.text|linebreaks }}</p>
@@ -147,11 +154,50 @@
             <p>Ingen kommentarer enda :(</p>
             {% endfor %}
             </div>
-            </div>
-            <div>
+          </div>
+          <div>
 
-                  {% if post.author.username == user.username %}
+          {% if post.author.username == user.username %}
           <a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'request_delete' pk=post.pk %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons"</i>delete</a>
-                  {% endif %}
-              </div>
+          {% endif %}
+          </div>
+          <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+          <!-- Compiled and minified JavaScript -->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
+          <script>
+          var star = 0;
+          var auth;
+          function giveStar(num, a) {
+            if (num === 1) {
+              document.getElementById("demo").innerHTML = "Du har valgt " + num + " stjerne";
+            } else {
+              document.getElementById("demo").innerHTML = "Du har valgt " + num + " stjerner";
+            }
+            star = num;
+            auth = a;
+          };
+          </script>
+          <script>
+
+            $('#finish').click(function(){
+              alert(c)
+              alert(auth)
+              $.ajax({
+                url: '{% url "requests_detail" pk=post.pk%}',
+                type:"GET",
+                data: { rating: star,
+                        auth: auth
+                },
+                beforeSend: function () {
+                  alert("Before Send: star value = " + star)
+                },
+                success: function(data) {
+                  alert('success!')
+                },
+                error: function(){
+                  alert('fail')
+                }
+              });
+            });
+          </script>
 {% endblock %}
