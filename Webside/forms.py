@@ -57,9 +57,3 @@ class ReportForm(forms.ModelForm):
         model = Report
         fields = ('reason',)
         labels = {'reason': "",}
-
-class PickCommunity(forms.ModelForm):
-    community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), to_field_name='name')
-    class Meta:
-        model = Community
-        fields=('community',)
