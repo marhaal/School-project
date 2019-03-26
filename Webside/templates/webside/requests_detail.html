@@ -19,10 +19,36 @@
             <!-- Modal Structure  overview profile post-->
             <div id="profileView" class="modal">
               <div class="modal-content">
+
               <h4>{{ post.author }}</h4>
-                <p>Rating: 4</p>
-                <p>Karma: gitt {{ post.author.given}}, fått {{ post.author.gotten}}</p>
-                <p>Sum: 86</p>
+                  <p>
+                    {% if post.author.profile.avgrating == 0 %}
+                    <p>Brukeren har ingen rating</p>
+                      {% elif post.author.profile.avgrating == 1 %}
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      {% elif post.author.profile.avgrating == 2 %}
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      {% elif post.author.profile.avgrating == 3 %}
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      {% elif post.author.profile.avgrating == 4 %}
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      {% elif post.author.profile.avgrating == 5 %}
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                      <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                    {% endif %}
+                </p>
+                <p>Karma: Antall gitt {{ post.author.profile.given }}, Antall fått {{ post.author.profile.gotten }}</p>
+                <p>Sum: {{ post.author.profile.sumkarma}}</p>
+                <p>Sist pålogget: {{ post.author.last_login }}</p>
               </div>
               <div class="modal-footer">
                 {% ifnotequal post.author.username user.username %}
@@ -60,9 +86,6 @@
             <a class="btn btn-default" style="margin:auto" href="{% url 'add_comment_to_post' pk=post.pk %}">Legg igjen en kommentar</a>
             <br><br>
             {% for comment in post.comments.all %}
-            <script type="text/javascript">
-              var c= "{{ comment.author }}";
-            </script>
             <div class="divider"></div>
             <div class="section">
             <div class="comment">
@@ -116,9 +139,34 @@
             <div id="profileViewComment{{ comment.author.id }}" class="modal">
               <div class="modal-content">
               <h4>{{ comment.author }}</h4>
-                <p>Rating: 4</p>
-                <p>Karma: gitt {{ comment.author.profile.given }}, fått {{ comment.author.profile.gotten }}</p>
-                <p>Sum: {% widthratio comment.author.profile.given 1 4 %}</p>
+              <p>
+                {% if comment.author.profile.avgrating == 0 %}
+                <p>Brukeren har ingen rating</p>
+                  {% elif comment.author.profile.avgrating == 1 %}
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  {% elif comment.author.profile.avgrating == 2 %}
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  {% elif comment.author.profile.avgrating == 3 %}
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  {% elif comment.author.profile.avgrating == 4 %}
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  {% elif comment.author.profile.avgrating == 5 %}
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                  <i class="material-icons" style="color:#ffeb3b;  font-size: 50px">stars</i>
+                {% endif %}
+            </p>
+                <p>Karma: Antall gitt {{ comment.author.profile.given }}, Antall fått {{ comment.author.profile.gotten }}</p>
+                <p>Sum: {{ comment.author.profile.sumkarma}}</p>
+                <p>Sist pålogget: {{ comment.author.last_login }}</p>
               </div>
               <div class="modal-footer">
                 {% if post.author.username == user.username %}
