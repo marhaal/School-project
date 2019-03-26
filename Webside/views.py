@@ -69,10 +69,15 @@ def requests_detail(request, pk):
         auth = request.GET.get('auth')
         u2 = User.objects.get(username=auth)
         trade = Trade_request(giver = request.user, receiver = u2, rating = data_string, post = post)
+        u2.profile.antallratet += 1
+        u2.profile.sumratings += int(data_string)
+        u2.profile.avgrating = ((sum(u2.porifle.sumratings))/u2.profile.antallratet)
         trade.save()
         request.user.profile.given += 1
+        request.user.profile.sum += 4
         request.user.save()
         u2.profile.gotten += 1
+        us.profile.sum -= 1
         u2.save()
         post.active = False
         post.save()
@@ -142,10 +147,15 @@ def loans_detail(request, pk):
         auth = request.GET.get('auth')
         u2 = User.objects.get(username=auth)
         trade = Trade_loan(giver = request.user, receiver = u2, rating = data_string, loan = loan)
+        u2.profile.antallratet += 1
+        u2.profile.sumratings += int(data_string)
+        u2.profile.avgrating = ((sum(u2.porifle.sumratings))/u2.profile.antallratet)
         trade.save()
         request.user.profile.given += 1
+        request.user.profile.sum += 4
         request.user.save()
         u2.profile.gotten += 1
+        u2.profile.sum -= 1
         u2.save()
         loan.active = False
         loan.save()
@@ -265,11 +275,7 @@ def communitylist(request):
 def showmap(request):
     loans=Loan.objects.all()
     communities=Community.objects.all()
-    if request.method == "POST":
-        form = PickCommunity(request.POST)
-    else:
-        form = PickCommunity()
-    return render(request, 'webside/showmap.html', {'loans': loans, 'communities': communities, 'form': form})
+    return render(request, 'webside/showmap.html', {'loans': loans, 'communities': communities,})
 
 def loan_delete(request, pk):
     loan = get_object_or_404(Loan, pk=pk)

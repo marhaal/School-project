@@ -32,6 +32,10 @@ class Profile(models.Model):
     email_confirmed = models.BooleanField(default=False)
     given = models.IntegerField(default=0)
     gotten = models.IntegerField(default=0)
+    sumkarma = models.IntegerField(default=0)
+    antallratet = models.IntegerField(default=0)
+    sumratings = models.IntegerField(default=0)
+    avgrating = models.IntegerField(default=0)
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
@@ -97,7 +101,7 @@ class Trade_request(models.Model):
     rating = models.IntegerField()
     giver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_giving', null=True)
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_get', null=True)
-    post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='post_given')
+    post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='post_given', null=True)
 
     def __str__(self):
         return self.post.title
@@ -106,7 +110,7 @@ class Trade_loan(models.Model):
     rating = models.IntegerField()
     giver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_giver', null=True)
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_receiver', null=True)
-    loan = models.ForeignKey('Webside.Loan', on_delete=models.CASCADE, related_name='loan_given')
+    loan = models.ForeignKey('Webside.Loan', on_delete=models.CASCADE, related_name='loan_given', null=True)
 
     def __str__(self):
         return self.loan.title
