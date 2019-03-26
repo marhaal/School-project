@@ -27,5 +27,6 @@ urlpatterns = [
     path('showmap', views.showmap, name='showmap'),
     path('request/delete/<int:pk>/', views.request_delete, name='request_delete'),
     path('loan/delete/<int:pk>/', views.loan_delete, name='loan_delete'),
-    path('contact', views.contact, name='contact')
+    path('contact', views.contact, name='contact'),
+    path('highscore', views.highscore, name='highscore')
 ]

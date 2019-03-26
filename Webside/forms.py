@@ -67,3 +67,5 @@ class ContactForm(forms.ModelForm):
         model = Contact
         fields = ('issue_alternative', 'issue_text')
         labels = {'issue_alternative': "Velg et alternativ", 'issue_text': "Tekst"}
+
+#class Highscore(forms.Form):

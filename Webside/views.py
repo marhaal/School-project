@@ -296,3 +296,7 @@ def contact(request):
     form.fields['issue_alternative'].label = "Velg et alternativ"
     form.fields['issue_text'].label = "Tekst"
     return render(request, 'webside/contact.html', {'form': form, 'text': text})
+
+def highscore(request):
+    users= User.objects.all()
+    return render(request, 'webside/highscore.html', {'users': users})

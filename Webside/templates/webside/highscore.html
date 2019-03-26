@@ -1,0 +1,28 @@
+{% extends 'webside/base.html' %}
+
+{% block content %}
+<h4 class="center" style="color:#336699; font-variant: small-caps;">Highscore</h4>
+
+<table>
+      <thead>
+         <tr>
+           <th>Navn</th>
+           <th>Karma</th>
+           <th>Område</th>
+         </tr>
+       </thead>
+       <tbody>
+         <ol>
+           {% for user in users %}
+           <li>
+           <td>{{ user.name }}</td>
+           <td>{{ user.profile.karma }}</td>
+           <td>{{ user.profile.community }}</td>
+           </li>
+           {% endfor %}
+         </ol>
+      </tbody>
+</table>
+
+
+{% endblock %}
