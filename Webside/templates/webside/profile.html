@@ -1,0 +1,30 @@
+{% extends 'webside/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}"
+        style=max-width:400px; max-height:200; "/>
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <div class="card" style="max-width: 450px; margin:left">
+                    <div class="left-align">
+                        <div class="card grey lighten-4">
+                            <div class="card-content teal-text">
+
+                              <p class="text-secondary">{{ user.email }}</p>
+                              <h6>Fødselsdato: {{user.profile.birth_date}}</h6>
+                              <h6>Lokasjon: {{user.profile.location}}</h6>
+                              <h6>Bio: {{user.profile.bio}}</h6>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+
+          <p class="text-secondary">{{ user.gender }}</p>
+  <a class="waves-effect" href="/profile/edit"><i class="material-icons">person</i>rediger profil</a>
+        </div>
+      </div>
+      </div>
+{% endblock content %}

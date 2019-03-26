@@ -3,6 +3,9 @@ from django.conf.urls import url
 from . import views
 from django.views.generic.base import TemplateView
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 
 urlpatterns = [
@@ -27,5 +30,11 @@ urlpatterns = [
     path('showmap', views.showmap, name='showmap'),
     path('request/delete/<int:pk>/', views.request_delete, name='request_delete'),
     path('loan/delete/<int:pk>/', views.loan_delete, name='loan_delete'),
-    path('contact', views.contact, name='contact')
+    path('contact', views.contact, name='contact'),
+    path('profile', views.profile, name='profile'),
+    path('profile/edit', views.profile_edit, name='profile_edit'),
 ]
+
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+        urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

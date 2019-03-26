@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment, Loan, Comment2, Community, Report, Trade_request, Trade_loan, Contact
+from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -67,3 +67,10 @@ class ContactForm(forms.ModelForm):
         model = Contact
         fields = ('issue_alternative', 'issue_text')
         labels = {'issue_alternative': "Velg et alternativ", 'issue_text': "Tekst"}
+
+class ProfileUpdateForm(forms.ModelForm):
+    YEARS= [x for x in range(1900,2021)]
+    birth_date = forms.DateField( initial="1995-06-03", widget=forms.SelectDateWidget(years=YEARS))
+    class Meta:
+        model = Profile
+        fields = ('bio','birth_date','location','image')

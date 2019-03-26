@@ -36,6 +36,10 @@ class Profile(models.Model):
     antallratet = models.IntegerField(default=0)
     sumratings = models.IntegerField(default=0)
     avgrating = models.IntegerField(default=0)
+    image= models.ImageField(upload_to='profile_image/', default='3.jpg')
+    def __str__(self):
+        return self.user.username
+
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):

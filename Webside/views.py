@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from .models import Post, Comment, Loan, Community, Trade_request, Trade_loan
-from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, ReportForm, ContactForm
+from .models import *
+from .forms import *
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -302,3 +302,25 @@ def contact(request):
     form.fields['issue_alternative'].label = "Velg et alternativ"
     form.fields['issue_text'].label = "Tekst"
     return render(request, 'webside/contact.html', {'form': form, 'text': text})
+
+@login_required
+def profile_edit(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=user.profile)
+        if form.is_valid():
+            form.save()  # you can just save the form, it will save the profile
+            return redirect('profile')
+
+    else:  # GET
+        form = ProfileUpdateForm(instance=user.profile) # initialise with instance
+
+    context = {
+        'form' : form
+    }
+    return render(request, 'webside/profile_edit.html', context)
+
+@login_required
+def profile(request):
+    return render(request, 'webside/profile.html')
