@@ -1,0 +1,24 @@
+{% extends 'webside/base.html' %}
+
+{% block content %}
+    <h4 class="center" style="color:#336699; font-variant: small-caps;">kontakt oss</h4>
+    <div class="container">
+    <div class="row valign-wrapper">
+      <div class="col s8 offset-s3 valign">
+          <div class="card-content white-text">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      {% ifnotequal text "Takk for at du tok kontakt!" %}
+      <button onclick="giveResponse()" class="waves-effect waves-light btn" type="submit">Send</button>
+      {% endifnotequal %}
+    </form>
+    </div>
+    </div>
+    </div>
+
+      <h6 class="center" style="color:#336699; font-variant: small-caps;" id="send">{{ text}}</h6>
+
+    </div>
+{% endblock %}

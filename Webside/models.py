@@ -74,6 +74,7 @@ class Loan(models.Model):
     def __str__(self):
         return self.title
 
+
 class Community(models.Model):
     name = models.CharField(max_length=200)
     text = models.TextField()
@@ -110,3 +111,13 @@ class Trade_loan(models.Model):
 
     def __str__(self):
         return self.loan.title
+
+
+class Contact(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    issue_alternative = models.CharField(null=True, max_length=20)
+    issue_text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.issue_alternative

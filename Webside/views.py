@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from .models import Post, Comment, Loan, Community, Trade_request, Trade_loan
-from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, ReportForm
+from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, ReportForm, ContactForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -265,7 +265,11 @@ def communitylist(request):
 def showmap(request):
     loans=Loan.objects.all()
     communities=Community.objects.all()
-    return render(request, 'webside/showmap.html', {'loans': loans, 'communities': communities})
+    if request.method == "POST":
+        form = PickCommunity(request.POST)
+    else:
+        form = PickCommunity()
+    return render(request, 'webside/showmap.html', {'loans': loans, 'communities': communities, 'form': form})
 
 def loan_delete(request, pk):
     loan = get_object_or_404(Loan, pk=pk)
@@ -276,3 +280,19 @@ def request_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
     return redirect('requests')
+
+def contact(request):
+    text = ""
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            contact = form.save(commit=False)
+            contact.user = request.user
+            contact.save()
+            text = "Takk for at du tok kontakt!"
+            return render(request, 'webside/contact.html', {"text": text})
+    else:
+        form = ContactForm()
+    form.fields['issue_alternative'].label = "Velg et alternativ"
+    form.fields['issue_text'].label = "Tekst"
+    return render(request, 'webside/contact.html', {'form': form, 'text': text})

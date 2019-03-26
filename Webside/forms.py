@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment, Loan, Comment2, Community, Report, Trade_request, Trade_loan
+from .models import Post, Comment, Loan, Comment2, Community, Report, Trade_request, Trade_loan, Contact
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -57,3 +57,13 @@ class ReportForm(forms.ModelForm):
         model = Report
         fields = ('reason',)
         labels = {'reason': "",}
+
+
+class ContactForm(forms.ModelForm):
+    issue_alternative = forms.ChoiceField(choices=[('spørsmål', 'Har du noen spørsmål?'), ('feil på nettsiden', 'Er det noe som ikke fungerer på nettsiden?'), ('annet', 'Annet')])
+    issue_text = forms.CharField(required=True, max_length=254)
+
+    class Meta:
+        model = Contact
+        fields = ('issue_alternative', 'issue_text')
+        labels = {'issue_alternative': "Velg et alternativ", 'issue_text': "Tekst"}
