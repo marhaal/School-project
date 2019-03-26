@@ -282,15 +282,17 @@ def request_delete(request, pk):
     return redirect('requests')
 
 def contact(request):
+    text = ""
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
             contact = form.save(commit=False)
             contact.user = request.user
             contact.save()
-            return redirect('contact')
+            text = "Takk for at du tok kontakt!"
+            return render(request, 'webside/contact.html', {"text": text})
     else:
         form = ContactForm()
     form.fields['issue_alternative'].label = "Velg et alternativ"
     form.fields['issue_text'].label = "Tekst"
-    return render(request, 'webside/contact.html', {'form': form})
+    return render(request, 'webside/contact.html', {'form': form, 'text': text})

@@ -9,10 +9,16 @@
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
-      <button class="waves-effect waves-light btn" type="submit">Send</button>
+
+      {% ifnotequal text "Takk for at du tok kontakt!" %}
+      <button onclick="giveResponse()" class="waves-effect waves-light btn" type="submit">Send</button>
+      {% endifnotequal %}
     </form>
     </div>
     </div>
     </div>
+
+      <h6 class="center" style="color:#336699; font-variant: small-caps;" id="send">{{ text}}</h6>
+
     </div>
 {% endblock %}
