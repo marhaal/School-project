@@ -315,6 +315,7 @@ def profile_edit(request):
 
     else:  # GET
         form = ProfileUpdateForm(instance=user.profile) # initialise with instance
+    form.fields['birth_date'].label = "Fødselsdato"
 
     context = {
         'form' : form

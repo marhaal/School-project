@@ -12,10 +12,40 @@
                         <div class="card grey lighten-4">
                             <div class="card-content teal-text">
 
-                              <p class="text-secondary">{{ user.email }}</p>
+
+                              <h6>Antall stjerner:
+                                  {% if user.profile.avgrating == 0 %}
+                                  Brukeren har ingen rating
+                                  {% elif user.profile.avgrating == 1 %}
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  {% elif user.profile.avgrating == 2 %}
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  {% elif user.profile.avgrating == 3 %}
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  {% elif user.profile.avgrating == 4 %}
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  {% elif user.profile.avgrating == 5 %}
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                  <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
+                                {% endif %}</h6>
+                              <h6 class="text-secondary">{{ user.email }}</h6>
                               <h6>Fødselsdato: {{user.profile.birth_date}}</h6>
                               <h6>Lokasjon: {{user.profile.location}}</h6>
                               <h6>Bio: {{user.profile.bio}}</h6>
+                              <h6>Antall gitt: {{user.profile.given}}</h6>
+                              <h6>Antall fått: {{user.profile.gotten}}</h6>
+                              <h6>Karma sum: {{user.profile.sumkarma}}</h6>
+
+
                             </div>
                           </div>
                         </div>
