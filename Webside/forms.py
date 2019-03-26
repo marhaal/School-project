@@ -74,3 +74,4 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('bio','birth_date','location','image')
+        labels = {'bio': "Bio", 'birth_date': "Fødselsdato", 'location': "Lokasjon", 'image' : "Profilbilde"}
