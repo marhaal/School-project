@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from .models import Post, Comment, Loan, Community, Trade_request, Trade_loan
+from .models import Post, Comment, Loan, Community, Trade_request, Trade_loan, Profile
 from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, ReportForm, ContactForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -304,5 +304,5 @@ def contact(request):
     return render(request, 'webside/contact.html', {'form': form, 'text': text})
 
 def highscore(request):
-    users= User.objects.all()
+    users= User.objects.order_by('-profile__sumkarma')[:10]
     return render(request, 'webside/highscore.html', {'users': users})
