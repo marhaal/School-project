@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from .models import Post, Comment, Loan, Community, Trade_request, Trade_loan, Profile
-from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, ReportForm, ContactForm
+from .forms import RequestsForm, CommentForm, LoansForm, CommentForm2, CommunityForm, SignUpForm, ReportForm, ContactForm, Highscore
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -304,5 +304,15 @@ def contact(request):
     return render(request, 'webside/contact.html', {'form': form, 'text': text})
 
 def highscore(request):
-    users= User.objects.order_by('-profile__sumkarma')[:10]
-    return render(request, 'webside/highscore.html', {'users': users})
+    users = User.objects.order_by('-profile__sumkarma')[:10]
+    if request.method == "POST":
+        form = Highscore(request.POST)
+        if form.is_valid():
+            community = form.cleaned_data.get('community')
+            #community = request.GET.get('community')
+            top_users=User.objects.filter(profile__community=community).order_by('-profile__sumkarma')[:10]
+            return render(request, 'webside/highscore.html', {'form' : form, 'top_users' : top_users})
+    else:
+        form=Highscore()
+    form.fields['community'].label = "Velg område for å se highscore for valgte område"
+    return render(request, 'webside/highscore.html', {'form' : form, 'users' : users})

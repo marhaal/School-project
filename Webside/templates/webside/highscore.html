@@ -24,6 +24,10 @@
            {% endfor %}
       </tbody>
 </table>
-
+<form method='post'>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn waves-effect waves-light" type="submit">Område</button>
+</form>
 
 {% endblock %}

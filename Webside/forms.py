@@ -68,4 +68,9 @@ class ContactForm(forms.ModelForm):
         fields = ('issue_alternative', 'issue_text')
         labels = {'issue_alternative': "Velg et alternativ", 'issue_text': "Tekst"}
 
-#class Highscore(forms.Form):
+class Highscore(forms.Form):
+    community = forms.ModelChoiceField(queryset=Community.objects.all())
+
+    class Meta:
+        fields= ('community',)
+        labels= {'community': 'Velg område'}
