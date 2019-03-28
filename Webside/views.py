@@ -312,7 +312,6 @@ def highscore(request):
     if request.method == "POST":
         form = Highscore(request.POST)
         if form.is_valid():
-            #community = form.cleaned_data.get('community')
             users=User.objects.filter(profile__community=request.POST.get('community')).order_by('-profile__sumkarma')[:10]
             return render(request, 'webside/highscore.html', {'form' : form, 'users' : users})
     else:
