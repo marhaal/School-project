@@ -33,6 +33,10 @@ urlpatterns = [
     path('contact', views.contact, name='contact'),
     path('profile', views.profile, name='profile'),
     path('profile/edit', views.profile_edit, name='profile_edit'),
+    path('statistics', views.statistics, name='statistics'),
+    path('statistics_users', views.statisticsUsers, name='statistics_users'),
+    path('statistics_trades', views.statisticsTrades, name='statistics_trades'),
+
 ]
 
 if settings.DEBUG:

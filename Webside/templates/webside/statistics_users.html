@@ -1,0 +1,90 @@
+{% extends 'webside/base.html' %}
+{% load static %}
+{% block content %}
+<a class="btn btn-default" href="{% url 'statistics' %}"><i class="large material-icons">navigate_before</i>
+</a>
+<h4 class="center" style="color:#336699; font-variant: small-caps;">Statistikk over brukere</h4>
+<h6 class="center" style="color:#336699; font-variant: small-caps;">Nå er det registrert {{ all_users}} brukere på ShareBoi, der {{ all_women }} er kvinner, {{ all_men }} er menn og {{ all_else }} er registrert som annet.</h6>
+<br>
+<br>
+<h6 class="center" style="color:#336699; font-variant: small-caps;">Under vises trenden i antall nye brukere de siste ukene:</h6>
+
+<div>
+		<canvas id="myChart"></canvas>
+</div>
+
+<br>
+<br>
+<h6 class="center" style="color:#336699; font-variant: small-caps;">Brukerne som er regisrert fordeler seg på følgende intervall:</h6>
+<table class="striped">
+       <thead>
+         <tr>
+             <th>Aldersgruppe</th>
+             <th>Antall</th>
+         </tr>
+       </thead>
+
+       <tbody>
+         <tr>
+           <td>Under 20 år</td>
+           <td>{{ all_0_19 }}</td>
+         </tr>
+         <tr>
+           <td>20-29 år</td>
+           <td>{{ all_20_29 }}</td>
+         </tr>
+         <tr>
+           <td>30-39 år</td>
+           <td>{{ all_30_39 }}</td>
+         </tr>
+         <tr>
+           <td>40-49 år</td>
+           <td>{{ all_40_49 }}</td>
+         </tr>
+         <tr>
+           <td>50-59 år</td>
+           <td>{{ all_50_59 }}</td>
+         </tr>
+         <tr>
+           <td>60-69 år</td>
+           <td>{{ all_60_69 }}</td>
+         </tr>
+         <tr>
+           <td>70 år og eldre</td>
+           <td>{{ all_70 }}</td>
+         </tr>
+       </tbody>
+     </table>
+     <div>
+       <form action="{% url 'statistics_users' %}" method="POST">
+         {% csrf_token %}
+         {{form.as_p}}
+         <button class="btn btn-default" type="submit">Oppdater</button>
+       </form>
+    </div>
+
+    <script>
+    		var myChart=document.getElementById('myChart').getContext('2d');
+    		var massPopChart = new Chart(myChart, {
+    			type: 'line',
+    			data:{
+    				labels:['5 uker siden', '4 uker siden', '3 uker siden', '2 uker siden', '1 uke siden'],
+    				datasets:[{
+    					label:'Nye brukere',
+    					data:[{{ week_5users }}, {{ week_4users }}, {{ week_3users }}, {{ week_2users }}, {{ week_1users }}],
+    					backgroundColor:'#4db6ac',
+    					borderColor:'#000',
+    					hoverBorderWith:'2',
+    					hoverBorderColor:'#000'
+    				}]
+    			},
+    			options:{
+    				title:{
+    					display:true,
+    					text:'Antall nye brukere de siste ukene'
+    				}
+    			}
+    		});
+    </script>
+
+{% endblock %}
