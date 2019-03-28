@@ -38,6 +38,9 @@ class Profile(models.Model):
     sumratings = models.IntegerField(default=0)
     avgrating = models.IntegerField(default=0)
     image= models.ImageField(upload_to='profile_image/', default='3.jpg')
+    gender = models.CharField(max_length=10, blank=True)
+    age = models.IntegerField(default=0, blank=True)
+    community = models.ForeignKey('Webside.Community', on_delete=models.CASCADE, null=True)
     def __str__(self):
         return self.user.username
 

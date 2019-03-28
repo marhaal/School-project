@@ -183,6 +183,9 @@ def signup(request):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
+            user.profile.gender = form.cleaned_data['gender']
+            user.profile.age = form.cleaned_data['age']
+            user.save()
             current_site = get_current_site(request)
 
             from_email = settings.EMAIL_HOST_USER
