@@ -184,6 +184,7 @@ def signup(request):
             user.save()
             user.profile.gender = form.cleaned_data['gender']
             user.profile.age = form.cleaned_data['age']
+            user.profile.community = form.cleaned_data['community']
             user.save()
             current_site = get_current_site(request)
 
@@ -205,6 +206,7 @@ def signup(request):
     form.fields['password2'].label = "Bekreft passord"
     form.fields['gender'].label = "Kjønn"
     form.fields['age'].label = "Alder"
+    form.fields['community'].label = "Område"
     for fieldname in ['username', 'password1', 'password2']:
             form.fields[fieldname].help_text = None
     return render(request, 'webside/signup.html', {'form': form})
@@ -310,10 +312,9 @@ def highscore(request):
     if request.method == "POST":
         form = Highscore(request.POST)
         if form.is_valid():
-            community = form.cleaned_data.get('community')
-            #community = request.GET.get('community')
-            top_users=User.objects.filter(profile__community=community).order_by('-profile__sumkarma')[:10]
-            return render(request, 'webside/highscore.html', {'form' : form, 'top_users' : top_users})
+            #community = form.cleaned_data.get('community')
+            users=User.objects.filter(profile__community=request.POST.get('community')).order_by('-profile__sumkarma')[:10]
+            return render(request, 'webside/highscore.html', {'form' : form, 'users' : users})
     else:
         form=Highscore()
     form.fields['community'].label = "Velg område for å se highscore for valgte område"
@@ -332,6 +333,7 @@ def profile_edit(request):
     else:  # GET
         form = ProfileUpdateForm(instance=user.profile) # initialise with instance
     form.fields['birth_date'].label = "Fødselsdato"
+    form.fields['community'].label = "Velg nytt område"
 
     context = {
         'form' : form

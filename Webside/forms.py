@@ -19,10 +19,10 @@ class SignUpForm(UserCreationForm):
     age = forms.IntegerField(max_value=150, min_value=0, required=True)
     gender = forms.CharField(required=True)
     gender = forms.ChoiceField(choices=[('kvinne', 'Kvinne'), ('mann', 'Mann'), ('annet', 'Annet')])
-
+    community = forms.ModelChoiceField(queryset=Community.objects.all())
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', 'gender', 'age')
+        fields = ('username', 'email', 'password1', 'password2', 'gender', 'age', 'community')
 
 class CommentForm(forms.ModelForm):
 
@@ -77,16 +77,16 @@ class Highscore(forms.Form):
     class Meta:
         fields= ('community',)
         labels= {'community': 'Velg område'}
-        
+
 class ProfileUpdateForm(forms.ModelForm):
-    YEARS= [x for x in range(1900,2021)]
+    YEARS= [x for x in range(1940,2021)]
     birth_date = forms.DateField( initial="1995-06-03", widget=forms.SelectDateWidget(years=YEARS))
-    location = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), required=False, to_field_name='name')
+    community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), required=False, to_field_name='name')
 
     class Meta:
         model = Profile
-        fields = ('bio','birth_date','location','image')
-        labels = {'bio': "Bio", 'birth_date': "Fødselsdato", 'location': "Lokasjon", 'image' : "Profilbilde"}
+        fields = ('bio','birth_date','community','image')
+        labels = {'bio': "Bio", 'birth_date': "Fødselsdato", 'community': "Lokasjon", 'image' : "Profilbilde"}
 
 class StatisticsUsersForm(forms.ModelForm):
     gender = forms.ChoiceField(choices=[('alle', 'Alle'), ('kvinne', 'Kvinner'), ('mann', 'Menn'), ('annet', 'Annet')])
