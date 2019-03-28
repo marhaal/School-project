@@ -41,7 +41,7 @@ class CommentForm2(forms.ModelForm):
 class LoansForm(forms.ModelForm):
     community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), to_field_name='name')
     category = forms.ChoiceField(choices=[('annet', 'Annet'), ('legemiddel', 'Legemiddel'), ('skole', 'Skole'), ('småting', 'Småting')])
-    
+
     class Meta:
         model = Loan
         fields=('title', 'text', 'community', 'category')
@@ -74,6 +74,8 @@ class ContactForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     YEARS= [x for x in range(1900,2021)]
     birth_date = forms.DateField( initial="1995-06-03", widget=forms.SelectDateWidget(years=YEARS))
+    location = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), required=False, to_field_name='name')
+
     class Meta:
         model = Profile
         fields = ('bio','birth_date','location','image')
