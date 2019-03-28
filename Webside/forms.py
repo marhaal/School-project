@@ -1,16 +1,17 @@
 from django import forms
-from .models import Post, Comment, Loan, Comment2, Community, Report, Trade_request, Trade_loan, Contact
+from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 class RequestsForm(forms.ModelForm):
 
     community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'))
+    category = forms.ChoiceField(choices=[('annet', 'Annet'), ('legemiddel', 'Legemiddel'), ('skole', 'Skole'), ('småting', 'Småting')])
 
     class Meta:
         model = Post
-        fields=('title', 'text', 'community')
-        labels = {'title': "Tittel", 'text': 'Tekst'}
+        fields=('title', 'text', 'community', 'category')
+        labels = {'title': "Tittel", 'text': 'Tekst', 'community': 'Område', 'category': 'Kategori'}
 
 
 class SignUpForm(UserCreationForm):
@@ -39,10 +40,12 @@ class CommentForm2(forms.ModelForm):
 
 class LoansForm(forms.ModelForm):
     community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), to_field_name='name')
+    category = forms.ChoiceField(choices=[('annet', 'Annet'), ('legemiddel', 'Legemiddel'), ('skole', 'Skole'), ('småting', 'Småting')])
+
     class Meta:
         model = Loan
-        fields=('title', 'text', 'community')
-        labels = {'title': "Tittel", 'text': 'Tekst'}
+        fields=('title', 'text', 'community', 'category')
+        labels = {'title': "Tittel", 'text': 'Tekst', 'community': 'Område', 'category': 'Kategori'}
 
 
 class CommunityForm(forms.ModelForm):
@@ -74,3 +77,28 @@ class Highscore(forms.Form):
     class Meta:
         fields= ('community',)
         labels= {'community': 'Velg område'}
+        
+class ProfileUpdateForm(forms.ModelForm):
+    YEARS= [x for x in range(1900,2021)]
+    birth_date = forms.DateField( initial="1995-06-03", widget=forms.SelectDateWidget(years=YEARS))
+    class Meta:
+        model = Profile
+        fields = ('bio','birth_date','location','image')
+        labels = {'bio': "Bio", 'birth_date': "Fødselsdato", 'location': "Lokasjon", 'image' : "Profilbilde"}
+
+class StatisticsUsersForm(forms.ModelForm):
+    gender = forms.ChoiceField(choices=[('alle', 'Alle'), ('kvinne', 'Kvinner'), ('mann', 'Menn'), ('annet', 'Annet')])
+    community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), required=False, to_field_name='name')
+
+    class Meta:
+        model = Community
+        fields = ('gender', 'community')
+
+class StatisticsTradesForm(forms.ModelForm):
+    gender = forms.ChoiceField(choices=[('alle', 'Alle'), ('kvinne', 'Kvinner'), ('mann', 'Menn'), ('annet', 'Annet')])
+    community = forms.ModelChoiceField(queryset=Community.objects.all().order_by('name'), required=False, to_field_name='name')
+    category = forms.ChoiceField(choices=[('annet', 'Annet'), ('legemiddel', 'Legemiddel'), ('skole', 'Skole'), ('småting', 'Småting')])
+
+    class Meta:
+        model = Community
+        fields = ('gender', 'community', 'category')

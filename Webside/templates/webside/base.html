@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
     <!-- Leaflet stylesheet -->
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -39,10 +40,12 @@
           <li><a class="waves-effect" href="/showmap"><i class="material-icons">map</i>Se kart</a></li>
           <li><a class="waves-effect" href="/contact"><i class="material-icons">phone</i>Kontakt oss</a></li>
           <li><a class="waves-effect" href="/highscore"><i class="material-icons">format_list_numbered</i>Highscore</a></li>
+          <li><a class="waves-effect" href="/profile"><i class="material-icons">person</i>Min profil</a></li>
           {% if user.is_superuser %}
             <li><div class="divider"></div></li>
             <li><a class="waves-effect" href="/add_community"><i class="material-icons">add_location</i>Legg til område</a></li>
             <li><a class="waves-effect" href="/communitylist"><i class="material-icons">list</i>Liste av områder</a></li>
+            <li><a class="waves-effect" href="/statistics"><i class="material-icons">trending_up</i>Statistikk</a></li>
           {% endif %}
         </ul>
 

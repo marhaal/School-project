@@ -3,6 +3,9 @@ from django.conf.urls import url
 from . import views
 from django.views.generic.base import TemplateView
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 
 urlpatterns = [
@@ -29,4 +32,13 @@ urlpatterns = [
     path('loan/delete/<int:pk>/', views.loan_delete, name='loan_delete'),
     path('contact', views.contact, name='contact'),
     path('highscore', views.highscore, name='highscore')
+    path('profile', views.profile, name='profile'),
+    path('profile/edit', views.profile_edit, name='profile_edit'),
+    path('statistics', views.statistics, name='statistics'),
+    path('statistics_users', views.statisticsUsers, name='statistics_users'),
+    path('statistics_trades', views.statisticsTrades, name='statistics_trades'),
 ]
+
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+        urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,0 +1,17 @@
+{% extends 'webside/base.html' %}
+{% load static %}
+{% block content %}
+
+<h4 class="center" style="color:#336699; font-variant: small-caps;">Statistikk</h4>
+<h6 class="center" style="color:#336699; font-variant: small-caps;">Ønsker du å se statistikk over brukere eller handler som er gjort?</h6>
+<div class="center">
+  <a href="statistics_users" class="waves-effect waves-light btn-large"><i class="material-icons left">people</i>Brukere</a>
+  <a href="statistics_trades" class="waves-effect waves-light btn-large"><i class="material-icons right">shopping_cart</i>Handler</a>
+</div>
+<br>
+<div class="center">
+  <img src="{% static "media/statistics.jpg" %}"  class="z-depth-4" alt="Statistics"
+style=max-width:350px; max-height:350px; "/>
+</div>
+
+{% endblock %}

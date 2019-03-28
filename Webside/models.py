@@ -16,6 +16,7 @@ class Post(models.Model):
     published_date = models.DateTimeField(blank=True, null=True)
     community = models.ForeignKey('Webside.Community', on_delete=models.CASCADE, null=True)
     active = models.BooleanField(default=True)
+    category = models.CharField(max_length=10, blank=True)
 
     def publish(self):
         self.published_date = timezone.now()
@@ -36,7 +37,13 @@ class Profile(models.Model):
     antallratet = models.IntegerField(default=0)
     sumratings = models.IntegerField(default=0)
     avgrating = models.IntegerField(default=0)
+    image= models.ImageField(upload_to='profile_image/', default='3.jpg')
+    gender = models.CharField(max_length=10, blank=True)
+    age = models.IntegerField(default=0, blank=True)
     community = models.ForeignKey('Webside.Community', on_delete=models.CASCADE, null=True)
+    def __str__(self):
+        return self.user.username
+
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
@@ -71,6 +78,7 @@ class Loan(models.Model):
     published_date = models.DateTimeField(blank=True, null=True)
     community = models.ForeignKey('Webside.Community', on_delete=models.CASCADE, null=True)
     active = models.BooleanField(default=True)
+    category = models.CharField(max_length=10, blank=True)
 
     def publish(self):
         self.published_date = timezone.now()
@@ -104,6 +112,7 @@ class Trade_request(models.Model):
     giver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_giving', null=True)
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_get', null=True)
     post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='post_given', null=True)
+    created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.post.title
@@ -113,6 +122,7 @@ class Trade_loan(models.Model):
     giver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_giver', null=True)
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user_receiver', null=True)
     loan = models.ForeignKey('Webside.Loan', on_delete=models.CASCADE, related_name='loan_given', null=True)
+    created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.loan.title

@@ -1,0 +1,117 @@
+{% extends 'webside/base.html' %}
+{% load static %}
+{% block content %}
+<a class="btn btn-default" href="{% url 'statistics' %}"><i class="large material-icons">navigate_before</i>
+</a>
+<h4 class="center" style="color:#336699; font-variant: small-caps;">Statistikk over handler</h4>
+<h6 class="center" style="color:#336699; font-variant: small-caps;">Nå har det totalt foregått {{ all_trades}} handler på ShareBoi.</h6>
+<br>
+<br>
+<h6 class="center" style="color:#336699; font-variant: small-caps;">Under vises den langsiktige utviklingen i antall handler:</h6>
+
+<table class="striped">
+       <thead>
+         <tr>
+             <th>Tidsperiode</th>
+             <th>Antall</th>
+         </tr>
+       </thead>
+
+       <tbody>
+         <tr>
+           <td>Siste uke</td>
+           <td>{{ last_week_trades }}</td>
+         </tr>
+         <tr>
+           <td>Siste måned</td>
+           <td>{{ last_mounth_trades }}</td>
+         </tr>
+         <tr>
+           <td>Siste 6 månedene</td>
+           <td>{{ last_6mounth_trades }}</td>
+         </tr>
+         <tr>
+           <td>Siste år</td>
+           <td>{{ last_year_trades }}</td>
+         </tr>
+       </tbody>
+     </table>
+     <br>
+
+     <h6 class="center" style="color:#336699; font-variant: small-caps;">Under vises trenden i antall handler de siste ukene:</h6>
+     <div>
+     		<canvas id="lastWeeks"></canvas>
+     </div>
+     <br>
+     <br>
+
+     <h6 class="center" style="color:#336699; font-variant: small-caps;">Under vises fordelingen av handler på de ulike kategoriene:</h6>
+     <div>
+     		<canvas id="category"></canvas>
+     </div>
+     <br>
+     <br>
+     <h6 class="center" style="color:#336699; font-variant: small-caps;">Under kan antall handler filtreres på kjønn, områder og kategori:</h6>
+<div>
+  <form action="{% url 'statistics_trades' %}" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button class="btn btn-default" type="submit">Oppdater</button>
+  </form>
+  <br>
+  <h6 class="center" style="color:#336699; font-variant: small-caps;">Denne filtreringen gir {{ trades }} handler.</h6>
+  <p class="center" style="color:#336699; font-variant: small-caps;">NB! Husk at en handel består av to personer og et handelsobjekt.</p>
+  <br>
+</div>
+
+<script>
+  window.onload = function () {
+    var lastWeeks=document.getElementById('lastWeeks').getContext('2d');
+    var weeksChart = new Chart(lastWeeks, {
+      type: 'line',
+      data:{
+        labels:['5 uker siden', '4 uker siden', '3 uker siden', '2 uker siden', '1 uke siden'],
+        datasets:[{
+          label:'Gjennomførte handler',
+          data:[{{ week_5trades }}, {{ week_4trades }}, {{ week_3trades }}, {{ week_2trades }}, {{ week_1trades }}],
+          backgroundColor:'#4db6ac',
+          borderColor:'#000',
+          hoverBorderWith:'2',
+          hoverBorderColor:'#000'
+        }]
+      },
+      options:{
+        title:{
+          display:true,
+          text:'Antall gjennomførte handler de siste ukene'
+        }
+      }
+    });
+    var category=document.getElementById('category').getContext('2d');
+    var categoryChart = new Chart(category, {
+      type: 'pie',
+      data:{
+        labels:['Annet', 'Skole', 'Legemiddel', 'Småting'],
+        datasets:[{
+          label:'Nye brukere',
+          data:[{{ other }}, {{ school }}, {{ medical }}, {{ little_things }}],
+          backgroundColor:['#4db6ac','#2196f3', '#ef5350', '#fff176'],
+          borderColor:'#000',
+          hoverBorderWith:'2',
+          hoverBorderColor:'#000'
+        }]
+      },
+      options:{
+        title:{
+          display:true,
+          text:'Antall gjennomførte handler de siste ukene'
+        },
+        legend:{
+          display:true
+        }
+      }
+    });
+  }
+</script>
+
+{% endblock %}
