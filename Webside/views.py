@@ -67,20 +67,20 @@ def requests_detail(request, pk):
     if request.method == "GET" and request.is_ajax():
         data_string = request.GET.get('rating')
         auth = request.GET.get('auth')
-        u2 = User.objects.get(username=auth)
-        trade = Trade_request(giver = request.user, receiver = u2, rating = data_string, post = post)
-        u2.profile.antallratet += 1
-        u2.profile.sumratings += int(data_string)
-        u2.profile.avgrating = ((sum(u2.porifle.sumratings))/u2.profile.antallratet)
-        trade.save()
-        request.user.profile.given += 1
-        request.user.profile.sum += 4
-        request.user.save()
-        u2.profile.gotten += 1
-        us.profile.sum -= 1
-        u2.save()
+        u2 = User.objects.get(id=int(auth))
+        trade = Trade_request(giver = u2, receiver = request.user, rating = data_string, post = post)
         post.active = False
         post.save()
+        u2.profile.antallratet += 1
+        u2.profile.sumratings += int(data_string)
+        u2.profile.avgrating = (u2.profile.sumratings/u2.profile.antallratet)
+        trade.save()
+        request.user.profile.gotten += 1
+        request.user.profile.sumkarma -= 1
+        request.user.save()
+        u2.profile.given += 1
+        u2.profile.sumkarma += 4
+        u2.save()
         return redirect('requests')
     return render(request, 'webside/requests_detail.html', {'post': post, 'form': form})
 
@@ -121,7 +121,6 @@ def loans(request):
 
 def loans_detail(request, pk):
     loan= get_object_or_404(Loan, pk=pk)
-    print("2")
     if request.method == "POST":
         if 'report_loan' in request.POST:
             form = ReportForm(request.POST)
@@ -145,17 +144,17 @@ def loans_detail(request, pk):
         print("ajax")
         data_string = request.GET.get('rating')
         auth = request.GET.get('auth')
-        u2 = User.objects.get(username=auth)
+        u2 = User.objects.get(id=int(auth))
         trade = Trade_loan(giver = request.user, receiver = u2, rating = data_string, loan = loan)
         u2.profile.antallratet += 1
         u2.profile.sumratings += int(data_string)
-        u2.profile.avgrating = ((sum(u2.porifle.sumratings))/u2.profile.antallratet)
+        u2.profile.avgrating = (u2.profile.sumratings/u2.profile.antallratet)
         trade.save()
         request.user.profile.given += 1
-        request.user.profile.sum += 4
+        request.user.profile.sumkarma += 4
         request.user.save()
         u2.profile.gotten += 1
-        u2.profile.sum -= 1
+        u2.profile.sumkarma -= 1
         u2.save()
         loan.active = False
         loan.save()

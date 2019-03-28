@@ -92,7 +92,7 @@
             <a class="modal-trigger" style="margin:auto" href="#profileViewComment{{ comment.author.id }}"><strong>{{ comment.author }}</strong></a>
 
             <!-- Modal Structure rating/finish trade-->
-            <div id="ratingModal" class="modal">
+            <div id="ratingModal{{ comment.author.id }}" class="modal">
               <div class="modal-content">
                 <p>Gi rating til {{ comment.author }}:</p>
                 <section class='rating-widget'>
@@ -102,36 +102,38 @@
                       <ul class="center-align valgin" id='stars'>
                         <div class="col offset-s2">
                           <li class='star' title='Poor' data-value='1'>
-                            <a onclick="giveStar(1, '{{ comment.author.username }}')" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                            <a id="1_{{ comment.author.id }}" onclick="giveStar(1, this.id)" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                           </li>
                         </div>
                         <div class="col">
                           <li class='star' title='Fair' data-value='2'>
-                            <a onclick="giveStar(2, '{{ comment.author.username }}')" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                            <a id="2_{{ comment.author.id }}" onclick="giveStar(2, this.id)" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                           </li>
                         </div>
                         <div class="col">
                           <li class='star' title='Good' data-value='3'>
-                            <a onclick="giveStar(3, '{{ comment.author.username }}')" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                            <a id="3_{{ comment.author.id }}" onclick="giveStar(3, this.id)" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                           </li>
                         </div>
                         <div class="col">
                           <li class='star' title='Excellent' data-value='4'>
-                            <a onclick="giveStar(4, '{{ comment.author.username }}')" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                            <a id="4_{{ comment.author.id }}" onclick="giveStar(4, this.id)" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                           </li>
                         </div>
                         <div class="col">
                           <li class='star' title='WOW!!!' data-value='5'>
-                            <a onclick="giveStar(5, '{{ comment.author.username }}')" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
+                            <a id="5_{{ comment.author.id }}" onclick="giveStar(5, this.id)" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">star</i></a>
                           </li>
                         </div>
                       </ul>
                   </div>
                 </section>
               </div>
-              <p id="demo">Du kan gi fra 1 til 5 stjerner</p>
+              <p id="demo_{{ comment.author.id }}">Du kan gi fra 1 til 5 stjerner</p>
               <div class="modal-footer">
+                <div class="send">
                 <button type="submit" class="modal-close waves-effect waves-green btn-flat" id="finish" name="finish">Send</button>
+                </div>
               </div>
             </div>
 
@@ -171,7 +173,7 @@
               <div class="modal-footer">
                 {% if post.author.username == user.username %}
                   {% ifnotequal comment.author.username user.username %}
-                  <a href="#ratingModal" class="modal-trigger modal-close waves-effect waves-green btn-flat">Fullfør handel</a>
+                  <a href="#ratingModal{{ comment.author.id }}" class="modal-trigger modal-close waves-effect waves-green btn-flat">Fullfør handel</a>
                   {% endifnotequal %}
                 {% endif %}
                 {% ifnotequal comment.author.username user.username %}
@@ -205,15 +207,7 @@
           </div>
           <div>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        {% if loan.author.username == user.username %}
-=======
-                  {% if post.author.username == user.username %}
->>>>>>> c166a0e8643aac48a4f8ca9b0839673899fafe9f
-=======
           {% if post.author.username == user.username %}
->>>>>>> e3f79aabf85da4a95b7e563925c15684ad0d140c
           <a class="btn-floating btn-large waves-effect waves-light red" href="{% url 'request_delete' pk=post.pk %}" style="position:fixed; left:90%; top:90%;"><i class="material-icons"</i>delete</a>
           {% endif %}
           </div>
@@ -221,34 +215,28 @@
           <!-- Compiled and minified JavaScript -->
           <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
           <script>
-          var star = 0;
-          var auth;
-          function giveStar(num, a) {
-            if (num === 1) {
-              document.getElementById("demo").innerHTML = "Du har valgt " + num + " stjerne";
-            } else {
-              document.getElementById("demo").innerHTML = "Du har valgt " + num + " stjerner";
-            }
-            star = num;
-            auth = a;
-          };
+            var star = 0;
+            var auth;
+            function giveStar(num, a) {
+              var array = a.split("_");
+              if (num === 1) {
+                document.getElementById("demo_"+array[1]).innerHTML = "Du har valgt " + array[0] + " stjerne";
+              } else {
+                document.getElementById("demo_"+array[1]).innerHTML = "Du har valgt " + array[0] + " stjerner";
+              }
+              star = num;
+              auth = array[1];
+            };
           </script>
           <script>
-
-            $('#finish').click(function(){
-              alert(c)
-              alert(auth)
+            $('.send').bind('click', function(){
               $.ajax({
                 url: '{% url "requests_detail" pk=post.pk%}',
                 type:"GET",
                 data: { rating: star,
                         auth: auth
                 },
-                beforeSend: function () {
-                  alert("Before Send: star value = " + star)
-                },
                 success: function(data) {
-                  alert('success!')
                 },
                 error: function(){
                   alert('fail')
@@ -256,4 +244,5 @@
               });
             });
           </script>
+
 {% endblock %}
