@@ -71,6 +71,13 @@ class ContactForm(forms.ModelForm):
         fields = ('issue_alternative', 'issue_text')
         labels = {'issue_alternative': "Velg et alternativ", 'issue_text': "Tekst"}
 
+class Highscore(forms.Form):
+    community = forms.ModelChoiceField(queryset=Community.objects.all())
+
+    class Meta:
+        fields= ('community',)
+        labels= {'community': 'Velg område'}
+        
 class ProfileUpdateForm(forms.ModelForm):
     YEARS= [x for x in range(1900,2021)]
     birth_date = forms.DateField( initial="1995-06-03", widget=forms.SelectDateWidget(years=YEARS))

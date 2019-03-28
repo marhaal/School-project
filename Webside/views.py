@@ -305,6 +305,20 @@ def contact(request):
     form.fields['issue_text'].label = "Tekst"
     return render(request, 'webside/contact.html', {'form': form, 'text': text})
 
+def highscore(request):
+    users = User.objects.order_by('-profile__sumkarma')[:10]
+    if request.method == "POST":
+        form = Highscore(request.POST)
+        if form.is_valid():
+            community = form.cleaned_data.get('community')
+            #community = request.GET.get('community')
+            top_users=User.objects.filter(profile__community=community).order_by('-profile__sumkarma')[:10]
+            return render(request, 'webside/highscore.html', {'form' : form, 'top_users' : top_users})
+    else:
+        form=Highscore()
+    form.fields['community'].label = "Velg område for å se highscore for valgte område"
+    return render(request, 'webside/highscore.html', {'form' : form, 'users' : users})
+
 @login_required
 def profile_edit(request):
     user = request.user

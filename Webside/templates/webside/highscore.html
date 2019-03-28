@@ -1,0 +1,33 @@
+{% extends 'webside/base.html' %}
+
+{% block content %}
+<h4 class="center" style="color:#336699; font-variant: small-caps;">Highscore</h4>
+
+<table>
+      <thead>
+         <tr>
+           <th>Plassering</th>
+           <th>Navn</th>
+           <th>Karma</th>
+           <th>Område</th>
+         </tr>
+       </thead>
+       <tbody>
+         <ol>
+           {% for user in users %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+           <td>{{ user.username }}</td>
+           <td>{{ user.profile.sumkarma }}</td>
+           <td>{{ user.profile.community }}</td>
+        </tr>
+           {% endfor %}
+      </tbody>
+</table>
+<form method='post'>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn waves-effect waves-light" type="submit">Område</button>
+</form>
+
+{% endblock %}
