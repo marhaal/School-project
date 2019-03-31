@@ -312,8 +312,10 @@ def highscore(request):
     if request.method == "POST":
         form = Highscore(request.POST)
         if form.is_valid():
-            users=User.objects.filter(profile__community=request.POST.get('community')).order_by('-profile__sumkarma')[:10]
-            return render(request, 'webside/highscore.html', {'form' : form, 'users' : users})
+            if request.POST.get('community') == "":
+                users = User.objects.order_by('-profile__sumkarma')[:10]
+            elif request.POST.get('community') != "":
+                users=User.objects.filter(profile__community=request.POST.get('community')).order_by('-profile__sumkarma')[:10]
     else:
         form=Highscore()
     form.fields['community'].label = "Velg område for å se highscore for valgte område"
