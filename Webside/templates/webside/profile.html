@@ -1,16 +1,23 @@
 {% extends 'webside/base.html' %}
 {% load static %}
 {% block content %}
-    <div class="content-section">
+<h4 class="center" style="color:#336699; font-variant: small-caps;">Min profil</h4>
+<div class='center'>
+    <div class="row">
+      <div class="col s6">
       <div class="media">
-        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}"
-        style=max-width:400px; max-height:200; "/>
+        <h2 class="account-heading" style="margin-top:10px">{{ user.username }}</h2>
+        <img class="z-depth-4" src="{{ user.profile.image.url }}"
+        style="max-width:450px; max-height:250px; margin-top:10px;"/>
+        </div>
+        </div>
+          <div class="col s6">
         <div class="media-body">
-          <h2 class="account-heading">{{ user.username }}</h2>
+
           <div class="card" style="max-width: 450px; margin:left">
                     <div class="left-align">
                         <div class="card grey lighten-4">
-                            <div class="card-content teal-text">
+                            <div class="card-content teal-text" style="margin-top:70px">
 
 
                               <h6>Antall stjerner:
@@ -37,13 +44,14 @@
                                   <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
                                   <i class="material-icons" style="color:#ffeb3b;  font-size: 30px">stars</i>
                                 {% endif %}</h6>
+                              <h6>Antall gitt: {{user.profile.given}}</h6>
+                              <h6>Antall fått: {{user.profile.gotten}}</h6>
+                              <h6>Karma sum: {{user.profile.sumkarma}}</h6>
+                              <br>
                               <h6 class="text-secondary">{{ user.email }}</h6>
                               <h6>Fødselsdato: {{user.profile.birth_date}}</h6>
                               <h6>Lokasjon: {{user.profile.community}}</h6>
                               <h6>Bio: {{user.profile.bio}}</h6>
-                              <h6>Antall gitt: {{user.profile.given}}</h6>
-                              <h6>Antall fått: {{user.profile.gotten}}</h6>
-                              <h6>Karma sum: {{user.profile.sumkarma}}</h6>
 
 
                             </div>
@@ -53,8 +61,12 @@
 
 
           <p class="text-secondary">{{ user.gender }}</p>
-  <a class="waves-effect" href="/profile/edit"><i class="material-icons">person</i>rediger profil</a>
+<a href="/profile/edit" class="waves-effect waves-light btn-small">rediger profil</a>
+
         </div>
       </div>
+      </div>
+      </div>
+
       </div>
 {% endblock content %}
