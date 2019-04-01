@@ -95,6 +95,8 @@ def requests_new(request):
             return redirect('requests_detail', pk=post.pk)
     else:
         form = RequestsForm()
+    form.fields['category'].label = "Kategori"
+    form.fields['community'].label = "Område"
     return render(request, 'webside/requests_edit.html', {'form': form})
 
 def loans(request):
@@ -172,6 +174,8 @@ def loans_new(request):
             return redirect('loans_detail', pk=loan.pk)
     else:
         form = LoansForm()
+    form.fields['category'].label = "Kategori"
+    form.fields['community'].label = "Område"
     return render(request, 'webside/loans_edit.html', {'form': form})
 
 
