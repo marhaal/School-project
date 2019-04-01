@@ -128,6 +128,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "Webside/media")
 MEDIA_URL="/media/"
+ADMIN_MEDIA_PREFIX ="/home/bjornandre/shareboi/lib/python3.6/site-packages/django/contrib/admin/static/admin"
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
